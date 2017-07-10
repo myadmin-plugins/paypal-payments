@@ -1,6 +1,6 @@
-# PayPal handling plugin for MyAdmin
+# Paypal handling plugin for MyAdmin
 
-PayPal handling plugin for MyAdmin
+Paypal handling plugin for MyAdmin
 
 ## Build Status and Code Analysis
 
@@ -24,5 +24,5 @@ composer require detain/myadmin-paypal-payments
 
 ## License
 
-The PayPal handling plugin for MyAdmin class is licensed under the LGPL-v2 license.
+The Paypal handling plugin for MyAdmin class is licensed under the LGPL-v2 license.
 

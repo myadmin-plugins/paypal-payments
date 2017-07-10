@@ -1,7 +1,7 @@
 {
     "name": "detain/myadmin-paypal-payments",
     "type": "myadmin-plugin",
-    "description": "PayPal handling plugin for MyAdmin",
+    "description": "Paypal handling plugin for MyAdmin",
     "keywords": ["abuse","administration","spam"],
     "license": "LGPL-2.1",
     "authors": [
@@ -28,6 +28,6 @@
 		"codacy/coverage": "dev-master"
 	},
     "autoload": {
-        "psr-4": {"Detain\\MyAdminPayPal\\": "src/"}
+        "psr-4": {"Detain\\MyAdminPaypal\\": "src/"}
     }
 }
