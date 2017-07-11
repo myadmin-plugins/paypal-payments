@@ -17,7 +17,7 @@ class Plugin {
 
 	public static function getHooks() {
 		return [
-			//'system.settings' => [__CLASS__, 'getSettings'],
+			'system.settings' => [__CLASS__, 'getSettings'],
 			//'ui.menu' => [__CLASS__, 'getMenu'],
 		];
 	}
@@ -41,8 +41,15 @@ class Plugin {
 
 	public static function getSettings(GenericEvent $event) {
 		$settings = $event->getSubject();
-		$settings->add_text_setting('General', 'Paypal', 'abuse_imap_user', 'Paypal IMAP User:', 'Paypal IMAP Username', ABUSE_IMAP_USER);
-		$settings->add_text_setting('General', 'Paypal', 'abuse_imap_pass', 'Paypal IMAP Pass:', 'Paypal IMAP Password', ABUSE_IMAP_PASS);
+		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_enable', 'Enable PayPal', 'Enable PayPal', PAYPAL_ENABLE, [true, false], ['Enabled', 'Disabled']);
+		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_digitalgoods_enable', 'Enable Digital Goods', 'Enable Digital Goods', PAYPAL_DIGITALGOODS_ENABLE, [true, false], ['Enabled', 'Disabled']);
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_email', 'Login / Email ', 'Login / Email ', (defined('PAYPAL_EMAIL') ? PAYPAL_EMAIL : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_api_username', 'API Username', 'API Username', (defined('PAYPAL_API_USERNAME') ? PAYPAL_API_USERNAME : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_api_password', 'API Password', 'API Password', (defined('PAYPAL_API_PASSWORD') ? PAYPAL_API_PASSWORD : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_api_signature', 'API Signature', 'API Signature', (defined('PAYPAL_API_SIGNATURE') ? PAYPAL_API_SIGNATURE : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_sandbox_api_username', 'Sandbox API Username', 'Sandbox API Username', (defined('PAYPAL_SANDBOX_API_USERNAME') ? PAYPAL_SANDBOX_API_USERNAME : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_sandbox_api_password', 'Sandbox API Password', 'Sandbox API Password', (defined('PAYPAL_SANDBOX_API_PASSWORD') ? PAYPAL_SANDBOX_API_PASSWORD : ''));
+		$settings->add_text_setting('Billing', 'PayPal', 'paypal_sandbox_api_signature', 'Sandbox API Signature', 'Sandbox API Signature', (defined('PAYPAL_SANDBOX_API_SIGNATURE') ? PAYPAL_SANDBOX_API_SIGNATURE : ''));
 	}
 
 }
