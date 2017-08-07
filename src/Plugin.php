@@ -29,6 +29,7 @@ class Plugin {
 		return [
 			'system.settings' => [__CLASS__, 'getSettings'],
 			//'ui.menu' => [__CLASS__, 'getMenu'],
+			'function.requirements' => [__CLASS__, 'getRequirements']
 		];
 	}
 
@@ -49,10 +50,39 @@ class Plugin {
 	 */
 	public static function getRequirements(GenericEvent $event) {
 		$loader = $event->getSubject();
-		$loader->add_requirement('class.Paypal', '/../vendor/detain/myadmin-paypal-payments/src/Paypal.php');
-		$loader->add_requirement('deactivate_kcare', '/../vendor/detain/myadmin-paypal-payments/src/abuse.inc.php');
-		$loader->add_requirement('deactivate_abuse', '/../vendor/detain/myadmin-paypal-payments/src/abuse.inc.php');
-		$loader->add_requirement('get_abuse_licenses', '/../vendor/detain/myadmin-paypal-payments/src/abuse.inc.php');
+		$loader->add_requirement('SetSubscriptionExpressCheckout', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('CreateRecurringPaymentsProfile', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('SetExpressCheckoutDG', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('SetExpressCheckout', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('CallShortcutExpressCheckout', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('CallMarkExpressCheckout', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('GetExpressCheckoutDetails', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('ConfirmPayment', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('DirectPayment', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('paypal_hash_call', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('RedirectToPayPal', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('RedirectToPayPalDG', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('deformatNVP', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
+		$loader->add_requirement('get_paypal_adaptive_accounts_ipn_messages', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_auction_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_buyer_information_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_dispute_resolution_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_global_shipping_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_mass_pay_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_payment_information_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_pay_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_pdt_specific_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_preapproval_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_recurring_payment_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_transaction_notification_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_link_url', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_link_url', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_link', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_link', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('is_paypal_txn_refunded', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('PPHttpPost', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
+		$loader->add_requirement('refundPaypalTransaction', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
 	}
 
 	/**

@@ -1,0 +1,110 @@
+[
+  [
+    "Variable",
+    "Description"
+  ],
+  [
+    "transaction_type",
+    "The type of transaction. Possible values\nare:\n\n\nAdaptive Payment PAY\nThis\nnotification occurs when is a payment is made due to a Pay Request. The\nvariables for the Adaptive Payment Pay notification\nare similar to the PaymentDetailsResponse fields.\n\n\nAdjustmentThis can be for a chargeback,\nreversal, or refund; check the reason_code to see\nwhich it is."
+  ],
+  [
+    "status",
+    "The status of the payment. Possible values are:\n\n\nCANCELED - The Preapproval agreement was cancelled\n\nCREATED - The payment request was received; funds will be transferred once the payment is approved\n\nCOMPLETED - The payment was successful\n\nINCOMPLETE - Some transfers succeeded and some failed for a parallel payment or, for a delayed chained payment, secondary receivers have not been paid\n\nERROR - The payment failed and all attempted transfers failed or all completed transfers were successfully reversed \n\nREVERSALERROR - One or more transfers failed when attempting to reverse a payment\n\nPROCESSING - The payment is in progress\n\nPENDING - The payment is awaiting processing"
+  ],
+  [
+    "sender_email",
+    "Sender's email address."
+  ],
+  [
+    "action_type",
+    "Whether the Pay API is\nused with or without the SetPaymentOptions and ExecutePayment API\noperations. Possible values are:\n\n\nPAY -\nIf you are not using the SetPaymentOptions and ExecutePayment API\noperations\n\n\nCREATE - If you are using the SetPaymentOptions and ExecutePayment API\noperations"
+  ],
+  [
+    "payment_request_date",
+    "The date on which the payment request was\ninitiated."
+  ],
+  [
+    "reverse_all_parallel_payments_on_error",
+    "Whether the payment request specified to\nreverse parallel payments if an error occurs. Possible values are:\n\n\ntrue - Each parallel payment is reversed\nif an error occurs \n\n\nfalse - Only incomplete payments are reversed\n(default)"
+  ],
+  [
+    "transaction[n].id",
+    "The transaction ID, where [n] is a number\nfrom 0 to 5. For simple, single receiver payments, this number will\nbe 0. Numbers larger than 0 indicate the payment to a particular\nreceiver in chained and parallel payments."
+  ],
+  [
+    "transaction[n].status",
+    "The transaction status, where [n] is a number\nfrom 0 to 5. For simple single-receiver payments, this number will\nbe 0. Numbers larger than 0 indicate the payment to a particular\nreceiver in chained and parallel payments.Possible values\nare:\n\nCompleted\n\nPending\n\nRefunded"
+  ],
+  [
+    "transaction[n].id_for_sender",
+    "The transaction ID for the sender, where\n[n] is a number from 0 to 5. For simple, single receiver payments,\nthis number will be 0. Numbers larger than 0 indicate the payment\nto a particular receiver in chained and parallel payments."
+  ],
+  [
+    "transaction[n].status_for_sender_txn",
+    "The transaction status, where [n] is a number\nfrom 0 to 5. For simple single-receiver payments, this number will\nbe 0. Numbers larger than 0 indicate the payment to a particular\nreceiver in chained and parallel payments.Possible values\nare:\n\n\nCOMPLETED - The sender's transaction\nhas completed\n\n\nPENDING - The transaction is awaiting further\nprocessing\n\n\nCREATED - The payment request was received;\nfunds will be transferred once approval is received\n\n\nPARTIALLY_REFUNDED - Transaction was partially\nrefunded\n\n\nDENIED - The transaction was rejected by\nthe receiver\n\n\nPROCESSING - The transaction is in progress\n\n\nREVERSED - The payment was returned to the\nsender\n\n\nREFUNDED - The payment was refunded\n\n\nFAILED - The payment failed"
+  ],
+  [
+    "transaction[n].refund_id",
+    "The identification number for the refund"
+  ],
+  [
+    "transaction[n].refund_amount",
+    "The amount that was refunded."
+  ],
+  [
+    "transaction[n].refund_account_charged",
+    "The email address of the debit account of\nthe refund."
+  ],
+  [
+    "transaction[n].receiver",
+    "The receiver's email address for the transaction"
+  ],
+  [
+    "transaction[n].invoiceId",
+    "The invoice number for this transaction"
+  ],
+  [
+    "transaction[n].amount",
+    "The payment amount of the transaction"
+  ],
+  [
+    "transaction[n].is_primary_receiver",
+    "Whether there is a primary receiver for\nthis transaction, which indicates whether the transaction is a chained\npayment. Possible values are:\n\n\ntrue -\nThere is a primary receiver (chained payment)\n\n\nfalse - There is no primary receiver (simple\nor parallel payment)"
+  ],
+  [
+    "return_url",
+    "The URL to which the sender's browser is\nredirected after approving a payment on paypal.com. Use the pay\nkey to identify the payment as follows: payKey=${payKey}."
+  ],
+  [
+    "cancel_url",
+    "The URL to which the sender's browser is\nredirected if the sender cancels the approval for a payment on paypal.com.\nUse the pay key to identify the payment as follows: payKey=${payKey}."
+  ],
+  [
+    "ipn_notification_url",
+    "The URL to which all IPN messages for this\npayment are sent."
+  ],
+  [
+    "pay_key",
+    "The pay key that identifies this payment.\nThis is a token that is assigned by the Pay API after a PayRequest message\nis received and can be used in other Adaptive Payments APIs as well\nas the cancelURL and returnURL to identify\nthis payment. The pay key is valid for 3 hours."
+  ],
+  [
+    "memo",
+    "A note associated with the payment."
+  ],
+  [
+    "fees_payer",
+    "The payer of PayPal fees. Possible values\nare:\n\n\nSENDER - Sender pays all fees\n(for personal, implicit simple/parallel payments; do not use for\nchained or unilateral payments)\n\n\nPRIMARYRECEIVER - Primary receiver pays\nall fees (chained payments only)\n\n\nEACHRECEIVER - Each receiver pays their\nown fee (default, personal and unilateral payments)\n\n\nSECONDARYONLY - Secondary receivers pay\nall fees (use only for chained payments with one secondary receiver)"
+  ],
+  [
+    "trackingId",
+    "The tracking ID that was specified for this\npayment in the PaymentDetailsRequest message."
+  ],
+  [
+    "preapproval_key",
+    "The preapproval key returned after a PreapprovalRequest,\nor the preapproval key that identifies the preapproval key sent\nwith a PayRequest."
+  ],
+  [
+    "reason_code",
+    "Whether this transaction is a chargeback,\npartial, or reversal. Possible values are:\n\n\nChargeback\nSettlement - Transaction is a chargeback\n\n\nAdmin reversal - Transaction was reversed\nby PayPal administrators\n\n\nRefund - Transaction was partially or fully\nrefunded"
+  ]
+]

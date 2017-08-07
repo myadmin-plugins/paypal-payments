@@ -1,0 +1,118 @@
+[
+  [
+    "Transaction Type (txn_type)",
+    "Description"
+  ],
+  [
+    "-",
+    "Credit card chargeback if the case_type variable contains chargeback"
+  ],
+  [
+    "adjustment",
+    "A dispute has been resolved and closed"
+  ],
+  [
+    "cart",
+    "Payment received for multiple items; source is Express Checkout or the PayPal Shopping Cart."
+  ],
+  [
+    "express_checkout",
+    "Payment received for a single item; source is Express Checkout"
+  ],
+  [
+    "masspay",
+    "Payment sent using Mass Pay"
+  ],
+  [
+    "merch_pmt",
+    "Monthly subscription paid for Website Payments Pro, Reference transactions, or Billing Agreement payments"
+  ],
+  [
+    "mp_cancel",
+    "Billing agreement cancelled"
+  ],
+  [
+    "mp_signup",
+    "Created a billing agreement"
+  ],
+  [
+    "new_case",
+    "A new dispute was filed"
+  ],
+  [
+    "payout",
+    "A payout related to a global shipping transaction was completed."
+  ],
+  [
+    "pro_hosted",
+    "Payment received; source is Website Payments Pro Hosted Solution."
+  ],
+  [
+    "recurring_payment",
+    "Recurring payment received"
+  ],
+  [
+    "recurring_payment_expired",
+    "Recurring payment expired"
+  ],
+  [
+    "recurring_payment_failed",
+    "Recurring payment failed \nThis transaction type is sent if:\n\nThe attempt to collect a recurring payment fails\nThe \"max failed payments\" setting in the customer's recurring payment profile is 0 \nIn this case, PayPal tries to collect the recurring payment an unlimited number of times without ever suspending the customer's recurring payments profile."
+  ],
+  [
+    "recurring_payment_profile_cancel",
+    "Recurring payment profile canceled"
+  ],
+  [
+    "recurring_payment_profile_created",
+    "Recurring payment profile created"
+  ],
+  [
+    "recurring_payment_skipped",
+    "Recurring payment skipped; it will be retried up to 3 times, 5 days apart"
+  ],
+  [
+    "recurring_payment_suspended",
+    "Recurring payment suspended\nThis transaction type is sent if PayPal tried to collect a recurring payment, but the related recurring payments profile has been suspended."
+  ],
+  [
+    "recurring_payment_suspended_due_to_max_failed_payment",
+    "Recurring payment failed and the related recurring payment profile has been suspended\nThis transaction type is sent if:\n\nPayPal's attempt to collect a recurring payment failed \nThe \"max failed payments\" setting in the customer's recurring payment profile is 1 or greater \nthe number of attempts to collect payment has exceeded the value specified for \"max failed payments\"\nIn this case, PayPal suspends the customer's recurring payment profile."
+  ],
+  [
+    "send_money",
+    "Payment received; source is the Send Money tab on the PayPal website"
+  ],
+  [
+    "subscr_cancel",
+    "Subscription canceled"
+  ],
+  [
+    "subscr_eot",
+    "Subscription expired"
+  ],
+  [
+    "subscr_failed",
+    "Subscription payment failed"
+  ],
+  [
+    "subscr_modify",
+    "Subscription modified"
+  ],
+  [
+    "subscr_payment",
+    "Subscription payment received"
+  ],
+  [
+    "subscr_signup",
+    "Subscription started"
+  ],
+  [
+    "virtual_terminal",
+    "Payment received; source is Virtual Terminal"
+  ],
+  [
+    "web_accept",
+    "Payment received; source is any of the following:\n\nA Direct Credit Card (Pro) transaction\nA Buy Now, Donation or Smart Logo for eBay auctions button"
+  ]
+]

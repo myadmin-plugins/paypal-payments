@@ -1,0 +1,27 @@
+[
+  [
+    "Variable Name",
+    "Description"
+  ],
+  [
+    "buyer_additional_information",
+    "Notes the buyer entered into the Resolution Center."
+  ],
+  [
+    "case_creation_date",
+    "Date and time case was registered, in the\nfollowing format: HH:MM:SS DD Mmm YY, YYYY PST"
+  ],
+  [
+    "case_id",
+    "Case identification number.Format:\nPP-D-nD-nn-nnn-nnn-nnn where n is any numeric character.",
+    "Case identification number.\nImportant: There are now two formats that are accepted for the \ncase_id variable. PayPal is enhancing their dispute management system to provide more\ndetails regarding dispute IPNs. The complete transition of this change could take a few years, so\nduring the transition, both formats will be used by the system. \n\n  \nOriginal Format: PP-nnn-nnn-nnn-nnn where n is any numeric character.\n  \nNew Format: PP-D-xxxx where xxxx is an integer, and the \"D\" indicates a dispute.\n\n\nBecause of this change, you will need to make sure that your IPN integration can\naccept and process both formats. As a best practice, you are encouraged to integrate\nflexibly so that any future changes to IPN value parameters can be made without the need for\nintegration change."
+  ],
+  [
+    "case_type",
+    "chargeback: A buyer\nhas filed a chargeback with his credit card company, which has notified\nPayPal of the reason for the chargeback.\n\n\ncomplaint: A buyer has logged a complaint\nthrough the PayPal Resolution Center.\n\n\ndispute: A buyer and seller post communications\nto one another through the Resolution Center to try to work out\nissues without intervention by PayPal.\n\n\nbankreturn: An ACH return was initiated from the \nbuyer's bank, and the money was removed from the seller's PayPal account."
+  ],
+  [
+    "reason_code",
+    "Reason for the case.Values for case_type set\nto complaint:\n\n\nnon_receipt:\nBuyer claims that he did not receive goods or service.\n\n\nnot_as_described: Buyer claims that the\ngoods or service received differ from merchant's description of\nthe goods or service.\n\nunauthorized_claim: Buyer claims that an unauthorized payment was  made for this particular transaction.\n\nValues for case_type set\nto chargeback:\n\nunauthorized\n\n\nadjustment_reimburse: A case that has been\nresolved and closed requires a reimbursement.\n\n\nnon_receipt: Buyer claims that he did not\nreceive goods or service.\n\n\nduplicate: Buyer claims that a possible\nduplicate payment was made to the merchant.\n\n\nmerchandise: Buyer claims that the received\nmerchandise is unsatisfactory, defective, or damaged.\n\n\nbilling: Buyer claims that the received\nmerchandise is unsatisfactory, defective, or damaged.\n\n\nspecial: Some other reason. Usually, special\nindicates a credit card processing error for which the merchant\nis not responsible and for which no debit to the merchant will result.\nPayPal must review the documentation from the credit card company\nto determine the nature of the dispute and possibly contact the\nmerchant to resolve it."
+  ]
+]

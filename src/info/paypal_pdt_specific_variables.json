@@ -1,0 +1,30 @@
+[
+  [
+    "Variable",
+    "Description"
+  ],
+  [
+    "amt",
+    "Amount of the transaction"
+  ],
+  [
+    "cc",
+    "Currency code"
+  ],
+  [
+    "cm",
+    "Custom message"
+  ],
+  [
+    "sig",
+    ""
+  ],
+  [
+    "st",
+    "Transaction status"
+  ],
+  [
+    "tx",
+    "Transaction ID/PDT token"
+  ]
+]

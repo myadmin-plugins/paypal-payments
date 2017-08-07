@@ -1,0 +1,38 @@
+[
+  [
+    "Field",
+    "Description"
+  ],
+  [
+    "notify_version",
+    "Message's version number"
+  ],
+  [
+    "first_name",
+    "Account holder's first name"
+  ],
+  [
+    "last_name",
+    "Account holder's last name"
+  ],
+  [
+    "verify_sign",
+    "Encrypted string used to validate the authenticity\nof the transaction"
+  ],
+  [
+    "charset",
+    "Character set"
+  ],
+  [
+    "account_key",
+    "Account key returned by the CreateAccount API\noperation"
+  ],
+  [
+    "confirmation_code",
+    "Confirmation code"
+  ],
+  [
+    "event_type",
+    "The kind of event:\n\n\nACCOUNT_CONFIRMED indicates\nthat the account holder has set a password and the account has been\ncreated. \n\n\nLOGIN_CONFIRMED indicates that the account\nholder logged into the account."
+  ]
+]

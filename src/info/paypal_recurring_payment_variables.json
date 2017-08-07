@@ -1,0 +1,58 @@
+[
+  [
+    "Variable Name",
+    "Description"
+  ],
+  [
+    "amount",
+    "Amount of recurring payment"
+  ],
+  [
+    "amount_per_cycle",
+    "Amount of recurring payment per cycle"
+  ],
+  [
+    "initial_payment_amount",
+    "Initial payment amount for recurring payments"
+  ],
+  [
+    "next_payment_date",
+    "Next payment date for a recurring payment"
+  ],
+  [
+    "outstanding_balance",
+    "Outstanding balance for recurring payments"
+  ],
+  [
+    "payment_cycle",
+    "Payment cycle for recurring payments"
+  ],
+  [
+    "period_type",
+    "Kind of period for a recurring payment"
+  ],
+  [
+    "product_name",
+    "Product name associated with a recurring\npayment"
+  ],
+  [
+    "product_type",
+    "Product name associated with a recurring\npayment"
+  ],
+  [
+    "profile_status",
+    "Profile status for a recurring payment"
+  ],
+  [
+    "recurring_payment_id",
+    "Recurring payment ID"
+  ],
+  [
+    "rp_invoice_id",
+    "The merchant's own unique reference or invoice\nnumber, which can be used to uniquely identify a profile.Length:\n127 single-byte alphanumeric characters"
+  ],
+  [
+    "time_created",
+    "When a recurring payment was created"
+  ]
+]

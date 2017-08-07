@@ -1,0 +1,62 @@
+[
+  [
+    "Variable Name",
+    "Description"
+  ],
+  [
+    "address_country",
+    "Country of customer's addressLength:\n64 characters"
+  ],
+  [
+    "address_city",
+    "City of customer's addressLength:\n40 characters"
+  ],
+  [
+    "address_country_code",
+    "ISO 3166 country code associated with customer's\naddressLength: 2 characters"
+  ],
+  [
+    "address_name",
+    "Name used with address (included when the\ncustomer provides a Gift Address)Length: 128 characters"
+  ],
+  [
+    "address_state",
+    "State of customer's addressLength:\n40 characters"
+  ],
+  [
+    "address_status",
+    "Whether the customer provided a confirmed\naddress. It is one of the following values:\n\n\nconfirmed -\nCustomer provided a confirmed address.\n\n\nunconfirmed - Customer provided an unconfirmed\naddress."
+  ],
+  [
+    "address_street",
+    "Customer's street address.Length:\n200 characters"
+  ],
+  [
+    "address_zip",
+    "Zip code of customer's address.Length:\n20 characters"
+  ],
+  [
+    "contact_phone",
+    "Customer's telephone number.Length:\n20 characters"
+  ],
+  [
+    "first_name",
+    "Customer's first nameLength: 64 characters"
+  ],
+  [
+    "last_name",
+    "Customer's last nameLength: 64 characters"
+  ],
+  [
+    "payer_business_name",
+    "Customer's company name, if customer is\na businessLength: 127 characters"
+  ],
+  [
+    "payer_email",
+    "Customer's primary email address. Use this\nemail to provide any credits.Length: 127 characters"
+  ],
+  [
+    "payer_id",
+    "Unique customer ID.Length: 13 characters"
+  ]
+]

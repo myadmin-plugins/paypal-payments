@@ -1,0 +1,78 @@
+[
+  [
+    "Variable",
+    "Description"
+  ],
+  [
+    "transaction_type",
+    "The type of transaction. For a preapproval,\nthis variable returns Adaptive Payment Preapproval.\n\nNote: If\nthis variable is set to Adaptive Payment Pay or Adjustment, refer\nto the Pay Message Variable section."
+  ],
+  [
+    "preapproval_key",
+    "The preapproval key returned after a PreapprovalRequest."
+  ],
+  [
+    "approved",
+    "Whether the preapproval request was approved.\nPossible values are:\n\n\ntrue - The preapproval\nwas approved\n\n\nfalse - The preapproval was denied"
+  ],
+  [
+    "cancel_url",
+    "The URL to which the sender's browser is\nredirected if the sender decides to cancel the preapproval as requested.\nUse the preapproval key to identify the payment as follows: preapprovalKey=${preapprovalKey}"
+  ],
+  [
+    "current_number_of_payments",
+    "The current number of payments made for\nthis preapproval."
+  ],
+  [
+    "current_total_amount_of_all_payments",
+    "The current total of payments made for this\npreapproval."
+  ],
+  [
+    "current_period_attempts",
+    "The current number of attempts this period\nfor this preapproval."
+  ],
+  [
+    "currency_code",
+    "The currency code. Possible values are:\n\nAustralian\nDollar - AUD\n\n\nBrazilian Real - BRL\n\nNote: The Real\nis supported as a payment currency and currency balance only for Brazilian\nPayPal accounts. \n\n\nCanadian Dollar - CAD\n\n\nCzech Koruna - CZK\n\n\nDanish Krone - DKK\n\n\nEuro - EUR\n\n\nHong Kong Dollar - HKD\n\n\nHungarian Forint - HUF\n\n\nIsraeli New Sheqel - ILS\n\n\nJapanese Yen - JPY\n\n\nMalaysian Ringgit - MYR\n\nNote: The\nRinggit is supported as a payment currency and currency balance\nonly for Malaysian PayPal accounts. \n\n\nMexican Peso - MXN\n\n\nNorwegian Krone - NOK\n\n\nNew Zealand Dollar - NZD\n\n\nPhilippine Peso - PHP\n\n\nPolish Zloty - PLN\n\n\nPound Sterling - GBP\n\n\nSingapore Dollar - SGD\n\n\nSwedish Krona - SEK\n\n\nSwiss Franc - CHF\n\n\nTaiwan New Dollar - TWD\n\n\nThai Baht - THB\n\n\nTurkish Lira - TRY\n\nNote: The Turkish\nLira is supported as a payment currency and currency balance only\nfor Turkish PayPal accounts. \n\n\nU.S. Dollar - USD"
+  ],
+  [
+    "date_of_month",
+    "The day of the month on which a monthly\npayment is to be made. A number between 1 and 31 indicates the day\nof the month. A value of 0 indicates that the payment can be made\non any day."
+  ],
+  [
+    "day_of_week",
+    "The day of the week that a weekly payment\nis to be made. Possible values are:\n\nNO_DAY_SPECIFIED\n\nSUNDAY\n\nMONDAY\n\nTUESDAY\n\nWEDNESDAY\n\nTHURSDAY\n\nFRIDAY\n\nSATURDAY"
+  ],
+  [
+    "starting_date",
+    "First date for which the preapproval is\nvalid."
+  ],
+  [
+    "ending_date",
+    "Last date for which the preapproval is valid.\nTime is currently not supported."
+  ],
+  [
+    "max_total_amount_of_all_payments",
+    "The pre-approved maximum total amount of\nall payments."
+  ],
+  [
+    "max_amount_per_payment",
+    "The pre-approved maximum amount of all payments."
+  ],
+  [
+    "max_number_of_payments",
+    "The maximum number of payments that is pre-approved."
+  ],
+  [
+    "payment_period",
+    "The payment period. Possible values\nare:\n\nNO_PERIOD_SPECIFIED\n\nDAILY\n\nWEEKLY\n\nBIWEEKLY\n\nSEMIMONTHLY\n\nMONTHLY\n\nANNUALLY"
+  ],
+  [
+    "pin_type",
+    "Whether a personal identification number\n(PIN) is required. It is one of the following values:\n\n\nNOT_REQUIRED -\nA PIN is not required\n\n\nREQUIRED - A PIN is required"
+  ],
+  [
+    "sender_email",
+    "The sender's email address."
+  ]
+]

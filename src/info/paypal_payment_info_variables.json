@@ -1,0 +1,174 @@
+[
+  [
+    "Variable Name",
+    "Description"
+  ],
+  [
+    "auth_amount",
+    "Authorization amount"
+  ],
+  [
+    "auth_exp",
+    "Authorization expiration date and time,\nin the following format: HH:MM:SS DD Mmm YY, YYYY PSTLength:\n28 characters"
+  ],
+  [
+    "auth_id",
+    "Authorization identification numberLength:\n19 characters"
+  ],
+  [
+    "auth_status",
+    "Status of authorization"
+  ],
+  [
+    "echeck_time_processed",
+    "The time an eCheck was processed; for example,\nwhen the status changes to Success or Completed. The format is as\nfollows: hh:mm:ss MM DD, YYYY ZONE, e.g. 04:55:30 May 26, 2011 PDT."
+  ],
+  [
+    "exchange_rate",
+    "Exchange rate used if a currency conversion\noccurred."
+  ],
+  [
+    "fraud_management_pending_filters_x",
+    "One or more filters that identify a triggering\naction associated with one of the following payment_status values:\nPending, Completed, Denied, where x is a number\nstarting with 1 that makes the IPN variable name unique; x is\nnot the filter's ID number. The filters and their ID numbers are\nas follows:\n\n\n1 - AVS No Match\n\n\n2 - AVS Partial Match\n\n\n3 - AVS Unavailable/Unsupported\n\n\n4 - Card Security Code (CSC) Mismatch\n\n\n5 - Maximum Transaction Amount\n\n\n6 - Unconfirmed Address\n\n\n7 - Country Monitor\n\n\n8 - Large Order Number\n\n\n9 - Billing/Shipping Address Mismatch\n\n\n10 - Risky ZIP Code\n\n\n11 - Suspected Freight Forwarder Check\n\n\n12 - Total Purchase Price Minimum\n\n\n13 - IP Address Velocity\n\n\n14 - Risky Email Address Domain Check\n\n\n15 - Risky Bank Identification Number (BIN)\nCheck\n\n\n16 - Risky IP Address Range\n\n\n17 - PayPal Fraud Model"
+  ],
+  [
+    "invoice",
+    "Pass-through variable you can use to identify\nyour Invoice Number for this purchase. If omitted, no variable is\npassed back.Length: 127 characters"
+  ],
+  [
+    "item_namex",
+    "Item name as passed by you, the merchant.\nOr, if not passed by you, as entered by your customer. If this is\na shopping cart transaction, PayPal will append the number of the\nitem (e.g., item_name1, item_name2, and\nso forth).Length: 127 characters"
+  ],
+  [
+    "item_numberx",
+    "Pass-through variable for you to track purchases.\nIt will get passed back to you at the completion of the payment.\nIf omitted, no variable will be passed back to you. If this is a\nshopping cart transaction, PayPal will append the number of the\nitem (e.g., item_number1, item_number2, and\nso forth)Length: 127 characters"
+  ],
+  [
+    "mc_currency",
+    "For payment IPN notifications, this\nis the currency of the payment. \n\nFor non-payment subscription IPN notifications (i.e., txn_type= signup,\ncancel, failed, eot, or modify), this is the currency of the subscription. \n\nFor payment subscription IPN notifications, it is the currency\nof the payment (i.e., txn_type = subscr_payment)"
+  ],
+  [
+    "mc_fee",
+    "Transaction fee associated with the payment. mc_gross minus mc_fee equals\nthe amount deposited into the receiver_email account. Equivalent\nto payment_fee for USD payments. If this amount\nis negative, it signifies a refund or reversal, and either of those\npayment statuses can be for the full or partial amount of the original\ntransaction fee."
+  ],
+  [
+    "mc_gross",
+    "Full amount of the customer's payment, before\ntransaction fee is subtracted. Equivalent to payment_gross for\nUSD payments. If this amount is negative, it signifies a refund\nor reversal, and either of those payment statuses can be for the\nfull or partial amount of the original transaction."
+  ],
+  [
+    "mc_gross_x",
+    "The amount is in the currency of mc_currency,\nwhere x is the shopping cart detail item number.\nThe sum of mc_gross_x should\ntotal mc_gross."
+  ],
+  [
+    "mc_handling",
+    "Total handling amount associated with the\ntransaction."
+  ],
+  [
+    "mc_shipping",
+    "Total shipping amount associated with the\ntransaction."
+  ],
+  [
+    "mc_shippingx",
+    "This is the combined total of shipping1 and shipping2 Website Payments\nStandard variables, where x is the shopping cart\ndetail item number. The shippingx variable\nis only shown when the merchant applies a shipping amount for a\nspecific item. Because profile shipping might apply, the sum of shippingx might\nnot be equal to shipping."
+  ],
+  [
+    "memo",
+    "Memo as entered by your customer in PayPal\nWebsite Payments note field.Length: 255 characters"
+  ],
+  [
+    "num_cart_items",
+    "If this is a PayPal Shopping Cart transaction,\nnumber of items in cart."
+  ],
+  [
+    "option_name1",
+    "Option 1 name as requested by you. PayPal\nappends the number of the item where x represents\nthe number of the shopping cart detail item (e.g., option_name1, option_name2).Length:\n64 characters"
+  ],
+  [
+    "option_name2",
+    "Option 2 name as requested by you. PayPal\nappends the number of the item where x represents\nthe number of the shopping cart detail item (e.g., option_name2, option_name2).Length:\n64 characters"
+  ],
+  [
+    "option_selection1",
+    "Option 1 choice as entered by your customer.PayPal\nappends the number of the item where x represents\nthe number of the shopping cart detail item (e.g., option_selection1, option_selection2).Length:\n200 characters"
+  ],
+  [
+    "option_selection2",
+    "Option 2 choice as entered by your customer.PayPal\nappends the number of the item where x represents\nthe number of the shopping cart detail item (e.g., option_selection1, option_selection2).Length:\n200 characters"
+  ],
+  [
+    "payer_status",
+    "Whether the customer has a verified PayPal\naccount.\n\n\nverified - Customer has\na verified PayPal account.\n\n\nunverified - Customer has an unverified\nPayPal account."
+  ],
+  [
+    "payment_date",
+    "Time/Date stamp generated by PayPal, in\nthe following format: HH:MM:SS Mmm DD, YYYY PDTLength: 28\ncharacters"
+  ],
+  [
+    "payment_fee",
+    "USD transaction fee associated with the\npayment. payment_gross minus payment_fee equals\nthe amount deposited into the receiver email account. Is empty for\nnon-USD payments. If this amount is negative, it signifies a refund\nor reversal, and either of those payment statuses can be for the\nfull or partial amount of the original transaction fee.\n\nNote: This\nis a deprecated field. Use mc_fee instead."
+  ],
+  [
+    "payment_fee_x",
+    "If the payment is USD, then the value is\nthe same as that for mc_fee_x, where x is\nthe record number; if the currency is not USD, then this is an empty\nstring.\n\nNote: This is a deprecated field. Use mc_fee_x instead."
+  ],
+  [
+    "payment_gross",
+    "Full USD amount of the customer's payment,\nbefore transaction fee is subtracted. Will be empty for non-USD\npayments. This is a legacy field replaced by mc_gross.\nIf this amount is negative, it signifies a refund or reversal, and\neither of those payment statuses can be for the full or partial amount\nof the original transaction."
+  ],
+  [
+    "payment_gross_x",
+    "If the payment is USD, then the value for\nthis is the same as that for the mc_gross_x,\nwhere x is the record number the mass pay item.\nIf the currency is not USD, this is an empty string.\n\nNote: This\nis a deprecated field. Use mc_gross_x instead."
+  ],
+  [
+    "payment_status",
+    "The\nstatus of the payment:\nCanceled_Reversal:\nA reversal has been canceled. For example, you won a dispute with\nthe customer, and the funds for the transaction that was reversed\nhave been returned to you.\nCompleted: The payment\nhas been completed, and the funds have been added successfully to\nyour account balance.\nCreated: A German ELV\npayment is made using Express Checkout.\nDenied: The payment was denied. This happens only if the payment was previously pending\nbecause of one of the reasons listed for the pending_reason variable\nor the Fraud_Management_Filters_x variable.\nExpired:\nThis authorization has expired and cannot be captured.\nFailed:\nThe payment has failed. This happens only if the payment was made\nfrom your customer's bank account.\nPending: The payment\nis pending. See pending_reason for\nmore information.\nRefunded: You refunded\nthe payment.\nReversed: A payment\nwas reversed due to a chargeback or other type of reversal. The\nfunds have been removed from your account balance and returned to\nthe buyer. The reason for the reversal is specified in the ReasonCode element.\nProcessed:\nA payment has been accepted.\nVoided: This authorization\nhas been voided."
+  ],
+  [
+    "payment_type",
+    "echeck: This payment was\nfunded with an eCheck.instant: This payment\nwas funded with PayPal balance, credit card, or Instant Transfer."
+  ],
+  [
+    "pending_reason",
+    "This variable is set only if payment_status is  Pending.\naddress:\nThe payment is pending because your customer did not include a confirmed\nshipping address and your Payment Receiving Preferences is set yo\nallow you to manually accept or deny each of these payments. To change\nyour preference, go to the Preferences section\nof your Profile.\nauthorization:\nYou set the payment action to Authorization and have not yet captured\nfunds.\necheck: The payment\nis pending because it was made by an eCheck that has not yet cleared.\nintl:\nThe payment is pending because you hold a non-U.S. account and do\nnot have a withdrawal mechanism. You must manually accept or deny this\npayment from your Account\nOverview.\nmulti_currency: You do not have a balance in the currency sent, and you do not have your profiles's Payment Receiving Preferences option set to automatically convert and accept this payment. As a result, you must manually accept or deny this payment.\norder:\nYou set the payment action to Order and have not yet captured funds.\npaymentreview:\nThe payment is pending while it is  reviewed by PayPal for\nrisk.\nregulatory_review:  The payment is pending because PayPal is reviewing it for  compliance with government regulations. PayPal will complete this review within 72 hours. When the review is complete, you will receive a second IPN message whose payment_status/reason code variables  indicate the result.\nunilateral: The payment\nis pending because it was made to an email address that is not yet\nregistered or confirmed.\nupgrade: The payment\nis pending because it was made via credit card and you must upgrade\nyour account to Business or Premier status before you can receive the\nfunds. upgrade can\nalso mean that you have reached the monthly limit for transactions\non your account.\nverify: The payment\nis pending because you are not yet verified. You must verify your\naccount before you can accept this payment.\nother: The payment\nis pending for a reason other than those listed above. For more\ninformation, contact PayPal Customer Service."
+  ],
+  [
+    "protection_eligibility",
+    "ExpandedSellerProtection:\nSeller is protected by Expanded seller protection\nSellerProtection:\nSeller is protected by PayPal's Seller Protection Policy\nNone:\nSeller is not protected under Expanded seller protection nor the Seller\nProtection Policy"
+  ],
+  [
+    "quantity",
+    "Quantity as entered by your customer or\nas passed by you, the merchant. If this is a shopping cart transaction,\nPayPal appends the number of the item (e.g. quantity1, quantity2)."
+  ],
+  [
+    "reason_code",
+    "This variable is set if payment_status is Reversed, Refunded, Canceled_Reversal, or Denied.\nadjustment_reversal: Reversal of an adjustment.\nadmin_fraud_reversal: The transaction has been reversed due to fraud detected by PayPal administrators.\nadmin_reversal: The transaction has been reversed by PayPal administrators.\nbuyer-complaint: The transaction has been reversed due to a complaint from your customer.\nchargeback: The transaction has been reversed due to a chargeback by your customer.\nchargeback_reimbursement: Reimbursement for a chargeback.\nchargeback_settlement: Settlement of a chargeback.\nguarantee: The transaction has been reversed because your customer exercised a money-back guarantee.\nother: Unspecified reason.\n\nrefund: The transaction has been reversed because you gave the customer a refund.\n\nregulatory_block: PayPal  blocked the transaction due to a violation of a government regulation. In this case, payment_status is Denied.\nregulatory_reject: PayPal  rejected the transaction due to a violation of a government regulation and returned the funds to the buyer. In this case, payment_status is Denied.\nregulatory_review_exceeding_sla: PayPal did not complete the    review   for compliance with government regulations within 72 hours, as required. Consequently, PayPal auto-reversed the transaction and returned the funds to the buyer. In this case, payment_status is Denied. Note that \"sla\" stand for \"service level agreement\".\nunauthorized_claim: The transaction has been reversed because  it was not authorized by the buyer.\nunauthorized_spoof: The transaction has been reversed due to a customer dispute in which an unauthorized spoof is suspected.\n\nNote: Additional codes may be returned."
+  ],
+  [
+    "remaining_settle",
+    "Remaining amount that can be captured with\nAuthorization and Capture"
+  ],
+  [
+    "settle_amount",
+    "Amount that is deposited into the account's\nprimary balance after a currency conversion from automatic conversion\n(through your Payment Receiving Preferences) or manual conversion\n(through manually accepting a payment)."
+  ],
+  [
+    "settle_currency",
+    "Currency of settle_amount."
+  ],
+  [
+    "shipping",
+    "Shipping charges associated with this transaction.Format:\nunsigned, no currency symbol, two decimal places."
+  ],
+  [
+    "shipping_method",
+    "The name of a shipping method from the Shipping\nCalculations section of the merchant's account profile. The buyer\nselected the named shipping method for this transaction."
+  ],
+  [
+    "tax",
+    "Amount of tax charged on payment. PayPal\nappends the number of the item (e.g., item_name1, item_name2).\nThe taxx variable is included only\nif there was a specific tax amount applied to a particular shopping cart\nitem. Because total tax may apply to other items in the cart, the\nsum of taxx might not total\nto tax."
+  ],
+  [
+    "transaction_entity",
+    "Authorization and Capture transaction entity"
+  ]
+]

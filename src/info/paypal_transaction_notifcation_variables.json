@@ -1,0 +1,66 @@
+[
+  [
+    "Variable Name",
+    "Description"
+  ],
+  [
+    "business",
+    "Email address or account ID of the payment\nrecipient (that is, the merchant). Equivalent to the values of receiver_email (if\npayment is sent to primary account) and business set\nin the Website Payment HTML.\n\nNote: The value of this variable\nis normalized to lowercase characters. \nLength: 127\ncharacters"
+  ],
+  [
+    "charset",
+    "Character set"
+  ],
+  [
+    "custom",
+    "Custom value as passed by you, the merchant.\nThese are pass-through variables that are never presented to your\ncustomerLength: 255 characters"
+  ],
+  [
+    "ipn_track_id",
+    "Internal; only for use by MTS and DTS"
+  ],
+  [
+    "notify_version",
+    "Message's version number"
+  ],
+  [
+    "parent_txn_id",
+    "In the case of a refund, reversal, or canceled\nreversal, this variable contains the txn_id of\nthe original transaction, while txn_id contains\na new ID for the new transaction.Length: 19 characters"
+  ],
+  [
+    "receipt_id",
+    "Unique ID generated during guest checkout\n(payment by credit card without logging in)."
+  ],
+  [
+    "receiver_email",
+    "Primary email address of the payment recipient\n(that is, the merchant). If the payment is sent to a non-primary\nemail address on your PayPal account, the receiver_email is\nstill your primary email.\n\nNote: The value of this variable\nis normalized to lowercase characters. \n\nLength: 127\ncharacters"
+  ],
+  [
+    "receiver_id",
+    "Unique account ID of the payment recipient\n(i.e., the merchant). This is the same as the recipient's referral\nID.Length: 13 characters"
+  ],
+  [
+    "resend",
+    "Whether this IPN message was resent (equals true);\notherwise, this is the original message."
+  ],
+  [
+    "residence_country",
+    "ISO 3166 country code associated with the\ncountry of residenceLength: 2 characters"
+  ],
+  [
+    "test_ipn",
+    "Whether the message is a test message. It\nis one of the following values:\n\n\n1 -\nthe message is directed to the Sandbox"
+  ],
+  [
+    "txn_id",
+    "The merchant's original transaction identification\nnumber for the payment from the buyer, against which the case was\nregistered."
+  ],
+  [
+    "txn_type",
+    "The kind of transaction for which the IPN\nmessage was sent."
+  ],
+  [
+    "verify_sign",
+    "Encrypted string used to validate the authenticity\nof the transaction"
+  ]
+]
