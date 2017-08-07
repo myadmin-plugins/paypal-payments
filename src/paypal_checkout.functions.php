@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__.'/../../config/config.settings.php';
+include_once __DIR__.'/../../../../include/config/config.settings.php';
 $SandboxFlag = false;
 $sBNCode = 'PP-ECWizard';
 if ($SandboxFlag == true) {
