@@ -29,7 +29,7 @@ class Plugin {
 		return [
 			'system.settings' => [__CLASS__, 'getSettings'],
 			//'ui.menu' => [__CLASS__, 'getMenu'],
-			'function.requirements' => [__CLASS__, 'getRequirements']
+			//'function.requirements' => [__CLASS__, 'getRequirements']
 		];
 	}
 

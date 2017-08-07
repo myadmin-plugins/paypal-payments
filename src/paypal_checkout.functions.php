@@ -1,5 +1,11 @@
 <?php
+//include_once __DIR__.'/../../../../include/functions.inc.php';
 include_once __DIR__.'/../../../../include/config/config.settings.php';
+global $API_Endpoint, $version, $API_UserName, $API_Password, $API_Signature;
+global $USE_PROXY, $PROXY_HOST, $PROXY_PORT;
+global $gv_ApiErrorURL;
+global $sBNCode;
+
 $SandboxFlag = false;
 $sBNCode = 'PP-ECWizard';
 if ($SandboxFlag == true) {
@@ -517,10 +523,12 @@ function paypal_hash_call($methodName, $nvpStr) {
 	global $USE_PROXY, $PROXY_HOST, $PROXY_PORT;
 	global $gv_ApiErrorURL;
 	global $sBNCode;
+
 	//setting the curl parameters.
 	$ch = curl_init();
+	//myadmin_log('paypal', 'debug', $API_Endpoint);
 	curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
-	//curl_setopt($ch, CURLOPT_VERBOSE, 1);
+	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 	//turning off the server and peer verification(TrustManager Concept).
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -531,13 +539,15 @@ function paypal_hash_call($methodName, $nvpStr) {
 	if($USE_PROXY)
 		curl_setopt($ch, CURLOPT_PROXY, $PROXY_HOST.':'.$PROXY_PORT);
 	//NVPRequest for submitting to server
-	$nvpreq= 'METHOD='.urlencode($methodName).'&VERSION='.urlencode($version).'&PWD='.urlencode($API_Password).'&USER='.urlencode($API_UserName).'&SIGNATURE='.urlencode($API_Signature) . $nvpStr.'&BUTTONSOURCE='.urlencode($sBNCode);
+	//$nvpreq= 'METHOD='.urlencode($methodName).'&VERSION='.urlencode($version).'&PWD='.urlencode($API_Password).'&USER='.urlencode($API_UserName).'&SIGNATURE='.urlencode($API_Signature) . $nvpStr.'&BUTTONSOURCE='.urlencode($sBNCode);
+	$nvpreq= 'METHOD='.urlencode($methodName).'&VERSION='.urlencode($version).'&PWD='.urlencode(PAYPAL_API_PASSWORD).'&USER='.urlencode(PAYPAL_API_USERNAME).'&SIGNATURE='.urlencode(PAYPAL_API_SIGNATURE) . $nvpStr.'&BUTTONSOURCE='.urlencode($sBNCode);
+	//myadmin_log('paypal', 'debug', $nvpreq);
 	//setting the nvpreq as POST FIELD to curl
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
 	//getting response from server
 	$response = curl_exec($ch);
 	//if (function_exists('myadmin_log'))
-	//	myadmin_log('billing', 'info', "PayPal {$methodName} Call Got Curl Response {$response}", __LINE__, __FILE__);
+		//myadmin_log('billing', 'info', "PayPal {$methodName} Call Got Curl Response {$response}", __LINE__, __FILE__);
 	//converting NVPResponse to an Associative Array
 	$nvpResArray=deformatNVP($response);
 	$nvpReqArray=deformatNVP($nvpreq);
