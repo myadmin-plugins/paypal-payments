@@ -50,6 +50,10 @@ class Plugin {
 	 */
 	public static function getRequirements(GenericEvent $event) {
 		$loader = $event->getSubject();
+		$loader->add_requirement('view_paypal_transaction', '/../vendor/detain/myadmin-paypal-payments/src/admin/view_paypal_transaction.php');
+		$loader->add_requirement('paypal_history', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_history.php');
+		$loader->add_requirement('paypal_transactions', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_transactions.php');
+		$loader->add_requirement('paypal_refund', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_refund.php');
 		$loader->add_requirement('SetSubscriptionExpressCheckout', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
 		$loader->add_requirement('CreateRecurringPaymentsProfile', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
 		$loader->add_requirement('SetExpressCheckoutDG', '/../vendor/detain/myadmin-paypal-payments/src/paypal_checkout.functions.php');
