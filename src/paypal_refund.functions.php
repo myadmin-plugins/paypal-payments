@@ -57,7 +57,7 @@ function PPHttpPost($methodName_, $nvpStr_, $env = 'live') {
  * @return mixed
  */
 function refundPaypalTransaction($transactionId = null) {
-	require_once INCLUDE_ROOT.'/billing/paypal/paypal.functions.inc.php';
+	require_once __DIR__.'/paypal.functions.inc.php';
 	if($transactionId === null) {
 		$result['status'] = 'Failed';
 		$result['msg'] = 'Transaction ID is empty!';
