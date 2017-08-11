@@ -1,8 +1,7 @@
 <?php
 	/**
 	 * Administrative Functionality
-	 * Last Changed: $LastChangedDate: 2017-07-19 15:21:28 -0400 (Wed, 19 Jul 2017) $
-	 * @author detain
+	 * @author Joe Huss <detain@interserver.net>
 	 * @copyright 2017
 	 * @package MyAdmin
 	 * @category Admin

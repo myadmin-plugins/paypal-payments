@@ -1,8 +1,7 @@
 <?php
 /**
  * PayPal Related Functionality
- * Last Changed: $LastChangedDate: 2016-11-27 07:44:43 -0500 (Sun, 27 Nov 2016) $
- * @author detain
+ * @author Joe Huss <detain@interserver.net>
  * @copyright 2017
  * @package MyAdmin
  * @category PayPal
