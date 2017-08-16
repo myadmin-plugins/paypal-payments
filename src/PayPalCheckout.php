@@ -135,26 +135,26 @@ class PayPalCheckout {
 	}
 
 	/**
-	 * @param $token
-	 * @param $payer_id
-	 * @param $amt
-	 * @param $period
-	 * @param $description
-	 * @param bool $initamt
+	 * @param string $token the token from  the SetExpressCheckout call also probably in $_SESSION['token']
+	 * @param string $payer_id Identifies the customer's account
+	 * @param float|string $amt The amount the buyer will pay in a payment period
+	 * @param int|string $period Frequency of charges
+	 * @param string $description Profile description - same as billing agreement description
+	 * @param bool|float|string $initamt optional amount of initial payment
 	 * @return array
 	 */
 	public static function CreateRecurringPaymentsProfile($token, $payer_id, $amt, $period, $description, $initamt = FALSE) {
-		$str = '&TOKEN='.$token                                                // the token from  the SetExpressCheckout call also probably in $_SESSION['token']
-			  .'&PAYERID='.$payer_id                                                // Identifies the customer's account
-			  .'&BILLINGTYPE=RecurringPayments'                                        // This must be RecurringPayments for subscriptions, same as it was used in SetExpressCheckout
-			  .'&AMT='.$amt                                                        // The amount the buyer will pay in a payment period
-			   . ($initamt !== FALSE ? '&INITAMT='.$initamt : '')                    // amount of initial payment , optional
-			  .'&CURRENCYCODE='.'USD'                                                // The currency, e.g. US dollars
-			  .'&COUNTRYCODE='.'US'                                                // The country code, e.g. US
-			  .'&PROFILESTARTDATE='.urlencode(date("Y-m-d\TH:i:s\Z", time()))    // Billing date start, in UTC/GMT format
-			  .'&BILLINGPERIOD='.'Month'                                            // Period of time between billings
-			  .'&BILLINGFREQUENCY='.$period                                        // Frequency of charges
-			  .'&DESC='.urlencode($description);									// Profile description - same as billing agreement description
+		$str = '&TOKEN='.$token
+			.'&PAYERID='.$payer_id
+			.'&BILLINGTYPE=RecurringPayments'                                  // This must be RecurringPayments for subscriptions, same as it was used in SetExpressCheckout
+			.'&AMT='.$amt
+			. ($initamt !== FALSE ? '&INITAMT='.$initamt : '')
+			.'&CURRENCYCODE='.'USD'                                            // The currency, e.g. US dollars
+			.'&COUNTRYCODE='.'US'                                              // The country code, e.g. US
+			.'&PROFILESTARTDATE='.urlencode(date("Y-m-d\TH:i:s\Z", time()))    // Billing date start, in UTC/GMT format
+			.'&BILLINGPERIOD='.'Month'                                         // Period of time between billings
+			.'&BILLINGFREQUENCY='.$period
+			.'&DESC='.urlencode($description);
 		myadmin_log('billing', 'info', 'calling CreateRecurringPaymentsProfile '.$str, __LINE__, __FILE__);
 		$resArray = self::paypal_hash_call('CreateRecurringPaymentsProfile', $str);
 		myadmin_log('billing', 'info', 'CreateRecurringPaymentsProfile returned '.json_encode($resArray), __LINE__, __FILE__);
