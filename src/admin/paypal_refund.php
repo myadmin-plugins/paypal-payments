@@ -65,8 +65,8 @@ function paypal_refund() {
 				if(!isset($memo))
 					exit('Partial Refund Memo is not specified.');
 			}
-			// Execute the API operation; see the PPHttpPost function above.
-			$httpParsedResponseAr = PPHttpPost('RefundTransaction', $nvpStr, 'live');
+			// Execute the API operation; see the PayPalHttpPost function above.
+			$httpParsedResponseAr = PayPalHttpPost('RefundTransaction', $nvpStr, 'live');
 			if('SUCCESS' == mb_strtoupper($httpParsedResponseAr['ACK']) || 'SUCCESSWITHWARNING' == mb_strtoupper($httpParsedResponseAr['ACK'])) {
 				//add_output('Refund Completed Successfully: <br />'.print_r($httpParsedResponseAr, TRUE));
 				$refundTransactionId = urldecode($httpParsedResponseAr['REFUNDTRANSACTIONID']);

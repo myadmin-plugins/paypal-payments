@@ -17,7 +17,7 @@
  * @internal param \The $string API method name
  * @internal param \The $string POST Message fields in &name=value pair format
  */
-function PPHttpPost($methodName_, $nvpStr_, $env = 'live') {
+function PayPalHttpPost($methodName_, $nvpStr_, $env = 'live') {
 	$API_UserName = urlencode(PAYPAL_API_USERNAME);
 	$API_Password = urlencode(PAYPAL_API_PASSWORD);
 	$API_Signature = urlencode(PAYPAL_API_SIGNATURE);
@@ -76,8 +76,8 @@ function refundPaypalTransaction($transactionId = null) {
 	// Add request-specific fields to the request string.
 	$nvpStr = "&TRANSACTIONID={$transactionID}&REFUNDTYPE={$refundType}&CURRENCYCODE={$currencyID}";
 	myadmin_log('billing', 'info', 'Going with PayPal Refund of '.$transactionID, __LINE__, __FILE__);
-	// Execute the API operation; see the PPHttpPost function above.
-	$httpParsedResponseAr = PPHttpPost('RefundTransaction', $nvpStr);
+	// Execute the API operation; see the PayPalHttpPost function above.
+	$httpParsedResponseAr = PayPalHttpPost('RefundTransaction', $nvpStr);
 	if('SUCCESS' == mb_strtoupper($httpParsedResponseAr['ACK']) || 'SUCCESSWITHWARNING' == mb_strtoupper($httpParsedResponseAr['ACK'])) {
 		$result['status'] = 'Success';
 		$result['msg'] = 'Refund Transaction is completed';
