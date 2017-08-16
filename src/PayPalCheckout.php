@@ -20,8 +20,12 @@ class PayPalCheckout {
 	public static $version = '109.0';
 
 	public function __construct() {
+	}
+
+	public static function setSessionData($key, $value) {
 		if (session_id() == '')
 			session_start();
+
 	}
 
 	/**
@@ -113,7 +117,7 @@ class PayPalCheckout {
 			//$nvpstr .= "&L_BILLINGAGREEMENTDESCRIPTION1=" . urlencode($items[sizeof($items) - 1]["name"]) . (mb_strpos($items[sizeof($items) - 1]["name"], ' Domain ') !== FALSE ? " Billed \${$items[sizeof($items) - 1]["amt"]} every 12 Month(s)" : "");
 		}
 		$agreement = 0;
-		foreach($items as $index => $item) {
+		foreach ($items as $index => $item) {
 			//if (sizeof($items) > 1 && $index == (sizeof($items) - 1))
 			//	$agreement++;
 			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_NAME{$index}=" . urlencode($item['name']);
@@ -129,7 +133,8 @@ class PayPalCheckout {
 		$ack = mb_strtoupper($resArray['ACK']);
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = $resArray['TOKEN'];
-			$_SESSION['TOKEN'] = $token;
+			self::setSessionData('TOKEN', $token);
+			self::setSessionData('TOKEN', $token);
 		}
 		return $resArray;
 	}
@@ -181,7 +186,7 @@ class PayPalCheckout {
 		$nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE='.$currencyCodeType;
 		$nvpstr .= '&REQCONFIRMSHIPPING=0';
 		$nvpstr .= '&NOSHIPPING=1';
-		foreach($items as $index => $item) {
+		foreach ($items as $index => $item) {
 			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=" . urlencode($item['name']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=" . urlencode($item['amt']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=" . urlencode($item['qty']);
@@ -194,7 +199,7 @@ class PayPalCheckout {
 		$ack = mb_strtoupper($resArray['ACK']);
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
-			$_SESSION['TOKEN'] = $token;
+			self::setSessionData('TOKEN', $token);
 		}
 		return $resArray;
 	}
@@ -220,7 +225,7 @@ class PayPalCheckout {
 		$nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE='.$currencyCodeType;
 		$nvpstr .= '&REQCONFIRMSHIPPING=0';
 		$nvpstr .= '&NOSHIPPING=1';
-		foreach($items as $index => $item) {
+		foreach ($items as $index => $item) {
 			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=" . urlencode($item['name']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=" . urlencode($item['amt']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=" . urlencode($item['qty']);
@@ -231,9 +236,8 @@ class PayPalCheckout {
 		$ack = mb_strtoupper($resArray['ACK']);
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
-			$_SESSION['TOKEN'] = $token;
+			self::setSessionData('TOKEN', $token);
 		}
-
 		return $resArray;
 	}
 
@@ -254,14 +258,14 @@ class PayPalCheckout {
 		$nvpstr = $nvpstr.'&RETURNURL='.$returnURL;
 		$nvpstr = $nvpstr.'&CANCELURL='.$cancelURL;
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_CURRENCYCODE='.$currencyCodeType;
-		$_SESSION['currencyCodeType'] = $currencyCodeType;
-		$_SESSION['PaymentType'] = $paymentType;
+		self::setSessionData('currencyCodeType', $currencyCodeType);
+		self::setSessionData('PaymentType', $paymentType);
 		// Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment. If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
-			$_SESSION['TOKEN']=$token;
+			self::setSessionData('TOKEN', $token);
 		}
 		return $resArray;
 	}
@@ -300,14 +304,14 @@ class PayPalCheckout {
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE='.$shipToCountryCode;
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_SHIPTOZIP='.$shipToZip;
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_SHIPTOPHONENUM='.$phoneNum;
-		$_SESSION['currencyCodeType'] = $currencyCodeType;
-		$_SESSION['PaymentType'] = $paymentType;
+		self::setSessionData('currencyCodeType', $currencyCodeType);
+		self::setSessionData('PaymentType', $paymentType);
 		// Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment. If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
-			$_SESSION['TOKEN']=$token;
+			self::setSessionData('TOKEN', $token);
 		}
 		return $resArray;
 	}
@@ -507,11 +511,11 @@ class PayPalCheckout {
 		//converting NVPResponse to an Associative Array
 		$nvpResArray = self::deformatNVP($response);
 		$nvpReqArray = self::deformatNVP($nvpreq);
-		$_SESSION['nvpReqArray'] = $nvpReqArray;
+		self::setSessionData('nvpReqArray', $nvpReqArray);
 		if (curl_errno($ch)) {
 			// moving to display page to display curl errors
-			$_SESSION['curl_error_no'] = curl_errno($ch);
-			$_SESSION['curl_error_msg'] = curl_error($ch);
+			self::setSessionData('curl_error_no', curl_errno($ch));
+			self::setSessionData('curl_error_msg', curl_error($ch));
 			//Execute the Error handling module to display errors.
 		} else {
 			//closing the curl
