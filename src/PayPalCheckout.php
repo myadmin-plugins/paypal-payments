@@ -25,7 +25,7 @@ class PayPalCheckout {
 	public static function setSessionData($key, $value) {
 		if (session_id() == '')
 			session_start();
-
+		$_SESSION[$key] = $value;
 	}
 
 	/**
