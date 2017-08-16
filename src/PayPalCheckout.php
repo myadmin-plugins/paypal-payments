@@ -1,6 +1,6 @@
 <?php
 
-namespace Detain\MyAdminPaypal;
+namespace Detain\MyAdminPayPal;
 
 //include_once __DIR__.'/../../../../include/functions.inc.php';
 include_once __DIR__.'/../../../../include/config/config.settings.php';

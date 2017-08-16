@@ -1,13 +1,13 @@
 <?php
 
-namespace Detain\MyAdminPaypal;
+namespace Detain\MyAdminPayPal;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Plugin
  *
- * @package Detain\MyAdminPaypal
+ * @package Detain\MyAdminPayPal
  */
 class Plugin {
 
