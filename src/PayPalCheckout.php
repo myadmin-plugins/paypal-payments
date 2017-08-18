@@ -134,7 +134,6 @@ class PayPalCheckout {
 		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = $resArray['TOKEN'];
 			self::setSessionData('TOKEN', $token);
-			self::setSessionData('TOKEN', $token);
 		}
 		return $resArray;
 	}
