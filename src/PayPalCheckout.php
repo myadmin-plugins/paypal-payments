@@ -127,7 +127,7 @@ class PayPalCheckout {
 		}
 		myadmin_log('billing', 'info', "got nvpstr {$nvpstr}", __LINE__, __FILE__);
 		//' Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment.  If an error occurred, show the resulting errors
-		//myadmin_log('billing', 'info', "Making paypal_hash_call('SetExpressCheckout') with {$nvpstr}", __LINE__ , __FILE__);
+		//myadmin_log('billing', 'info', "Making paypal_hash_call('SetExpressCheckout') with {$nvpstr}", __LINE__, __FILE__);
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		myadmin_log('billing', 'info', 'SetSubscriptionExpressCheckout returned'.json_encode($resArray), __LINE__, __FILE__);
 		$ack = mb_strtoupper($resArray['ACK']);
@@ -486,7 +486,7 @@ class PayPalCheckout {
 	public static function paypal_hash_call($methodName, $nvpStr) {
 		//setting the curl parameters.
 		$ch = curl_init();
-		//myadmin_log('paypal', 'debug', self::getApiEndpoint());
+		//myadmin_log('paypal', 'debug', self::getApiEndpoint(), __LINE__, __FILE__);
 		curl_setopt($ch, CURLOPT_URL, self::getApiEndpoint());
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		//turning off the server and peer verification(TrustManager Concept).
@@ -500,7 +500,7 @@ class PayPalCheckout {
 			curl_setopt($ch, CURLOPT_PROXY, self::$proxyHost.':'.self::$proxyPort);
 		//NVPRequest for submitting to server
 		$nvpreq= 'METHOD='.urlencode($methodName).'&VERSION='.urlencode(self::$version).'&PWD='.urlencode(self::getApiPassword()).'&USER='.urlencode(self::getApiUsername()).'&SIGNATURE='.urlencode(self::getApiSignature()) . $nvpStr.'&BUTTONSOURCE='.urlencode(self::$sBNCode);
-		//myadmin_log('paypal', 'debug', $nvpreq);
+		//myadmin_log('paypal', 'debug', $nvpreq, __LINE__, __FILE__);
 		//setting the nvpreq as POST FIELD to curl
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
 		//getting response from server
