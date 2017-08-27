@@ -73,7 +73,7 @@ class Plugin {
 		$loader->add_requirement('get_paypal_link', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
 		$loader->add_requirement('is_paypal_txn_refunded', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
 		$loader->add_requirement('PayPalHttpPost', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
-		$loader->add_requirement('refundPaypalTransaction', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
+		$loader->add_page_requirement('refundPaypalTransaction', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
 	}
 
 	/**
