@@ -488,7 +488,7 @@ class PayPalCheckout {
 		$ch = curl_init();
 		//myadmin_log('paypal', 'debug', self::getApiEndpoint(), __LINE__, __FILE__);
 		curl_setopt($ch, CURLOPT_URL, self::getApiEndpoint());
-		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		//turning off the server and peer verification(TrustManager Concept).
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
