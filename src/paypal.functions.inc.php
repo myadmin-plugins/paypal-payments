@@ -334,13 +334,14 @@ function get_paypal_link_url($custom, $service_cost, $description = '') {
  * @param int $days_till_first_payment defaults to 1, optional delay before the first payment is sent
  * @return string the link url
  */
-function get_paypal_subscription_link_url($custom, $service_cost, $description = '', $days_till_first_payment = 1) {
+function get_paypal_subscription_link_url($custom, $service_cost, $description = '', $days_till_first_payment = 1, $frequency = 1) {
 	if ($description == '')
 		$description = TITLE;
 	$description = urlencode($description);
 	if (mb_strlen($custom) > 200)
 		$custom = 'COMPRESSED'.base64_encode(gzcompress($custom));
-	return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business='.htmlspecial(PAYPAL).'&lc=US&item_name='.htmlspecial($description).'&custom='.htmlspecial($custom).'&no_note=1&src=1'.($days_till_first_payment > 1 ? '&a1=0&p1=30&t1=D' : '').'&a3='.htmlspecial(number_format($service_cost, 2)).'&p3='.(int)$days_till_first_payment.'&t3=M&currency_code=USD&bn=PP%2dSubscriptionsBF%3abtn_subscribeCC_LG%2egif%3aNonHostedGuest';
+	return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business='.htmlspecial(PAYPAL).'&lc=US&item_name='.htmlspecial($description).'&custom='.htmlspecial($custom).'&no_note=1&src=1'.($days_till_first_payment > 1 ? '&a1=0&p1=30&t1=D' : '').'&a3='.htmlspecial(number_format($service_cost, 2)).'&p3='.(int)$frequency.'&t3=M&currency_code=USD&bn=PP%2dSubscriptionsBF%3abtn_subscribeCC_LG%2egif%3aNonHostedGuest';
+	//return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick-subscriptions&business='.htmlspecial(PAYPAL).'&lc=US&item_name='.htmlspecial($description).'&custom='.htmlspecial($custom).'&no_note=1&src=1'.($days_till_first_payment > 1 ? '&a1=0&p1=30&t1=D' : '').'&a3='.htmlspecial(number_format($service_cost, 2)).'&p3='.(int)$days_till_first_payment.'&t3=M&currency_code=USD&bn=PP%2dSubscriptionsBF%3abtn_subscribeCC_LG%2egif%3aNonHostedGuest';
 }
 
 /**
