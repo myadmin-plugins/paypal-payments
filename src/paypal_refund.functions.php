@@ -93,8 +93,8 @@ function refundPaypalTransaction($transactionId = null) {
 		$result['status'] = 'Failed';
 		$result['msg'] = 'Refund Transaction is failed from paypal side';
 		$result['errorlongmsg']  = urldecode($httpParsedResponseAr['L_LONGMESSAGE0']);
-		$result['$errorcode']  = $httpParsedResponseAr['L_ERRORCODE0'];
-		$result['$errorshortmsg']  = urldecode($httpParsedResponseAr['L_SHORTMESSAGE0']);
+		$result['{$errorcode}']  = $httpParsedResponseAr['L_ERRORCODE0'];
+		$result['{$errorshortmsg}']  = urldecode($httpParsedResponseAr['L_SHORTMESSAGE0']);
 		myadmin_log('billing', 'info', json_encode($httpParsedResponseAr), __LINE__, __FILE__);
 		return $result;
 	}
