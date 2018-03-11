@@ -1,11 +1,11 @@
 <?php
 	/**
-	* PayPal Related Functionality
-	* @author Joe Huss <detain@interserver.net>
-	* @copyright 2017
-	* @package MyAdmin
-	* @category PayPal
-	*/
+	 * PayPal Related Functionality
+	 * @author Joe Huss <detain@interserver.net>
+	 * @copyright 2017
+	 * @package MyAdmin
+	 * @category PayPal
+	 */
 
 	function get_paypal_transaction_types() {
 		return [
@@ -331,8 +331,8 @@ function get_paypal_cats_and_fields() {
 		add_js('font-awesome');
 		add_js('isotope');
 		$GLOBALS['body_extra'] = ' data-spy="scroll" data-target="#scrollspy" style="position: relative;"';
-		$GLOBALS['tf']->add_html_head_css_file(URL_ROOT . '/css/view_paypal_transaction.css');
-		$GLOBALS['tf']->add_html_head_js_file(URL_ROOT . '/js/view_paypal_transaction.js');
+		$GLOBALS['tf']->add_html_head_css_file(URL_ROOT.'/css/view_paypal_transaction.css');
+		$GLOBALS['tf']->add_html_head_js_file(URL_ROOT.'/js/view_paypal_transaction.js');
 		$transaction_types = get_paypal_transaction_types();
 		$cats = get_paypal_cats_and_fields();
 		$db = clone $GLOBALS['tf']->db;
@@ -363,11 +363,11 @@ function get_paypal_cats_and_fields() {
 				$transaction = [];
 				foreach ($db->Record as $key => $value)
 					if ($key == 'lid')
-						$transaction[$key] = $table->make_link('choice=none.edit_customer3&amp;lid=' . $value, $value, FALSE, 'target="_blank" title="Edit Customer"');
+						$transaction[$key] = $table->make_link('choice=none.edit_customer3&amp;lid='.$value, $value, FALSE, 'target="_blank" title="Edit Customer"');
 					elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id')
-						$transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'=' . $value, $value, FALSE, 'target="_blank" title="View Payers Transactions"');
+						$transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, FALSE, 'target="_blank" title="View Payers Transactions"');
 					elseif ($key == 'txn_type' && isset($transaction_types[$value]))
-						$transaction[$key] = '<strong title="' . htmlspecial($transaction_types[$value]) . '">' . $value . '</strong>';
+						$transaction[$key] = '<strong title="'.htmlspecial($transaction_types[$value]).'">'.$value.'</strong>';
 					elseif (in_array($key, ['verify_sign']))
 						$transaction[$key] = wordwrap($value, 28, '<br>', TRUE);
 					elseif ($key == 'custom') {
@@ -397,7 +397,7 @@ function get_paypal_cats_and_fields() {
 									$suffix = '2';
 								else
 									$suffix = '';
-								$invoices[$idx] = $table->make_link('choice=none.view_' . $GLOBALS['modules'][$module]['PREFIX'] . $suffix . '&amp;id=' . $service, $invoice, FALSE, 'target="_blank" title="View ' . $GLOBALS['modules'][$module]['TBLNAME'] . ' ' . $service . ' Details"');
+								$invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].$suffix.'&amp;id='.$service, $invoice, FALSE, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
 							}
 						}
 						//$transaction[$key] = wordwrap(implode(',', $invoices), 28, '<br>');

@@ -81,8 +81,8 @@ class Plugin {
 	 */
 	public static function getSettings(GenericEvent $event) {
 		$settings = $event->getSubject();
-		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_enable', 'Enable PayPal', 'Enable PayPal', PAYPAL_ENABLE, [true, false], ['Enabled', 'Disabled']);
-		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_digitalgoods_enable', 'Enable Digital Goods', 'Enable Digital Goods', PAYPAL_DIGITALGOODS_ENABLE, [true, false], ['Enabled', 'Disabled']);
+		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_enable', 'Enable PayPal', 'Enable PayPal', PAYPAL_ENABLE, [TRUE, FALSE], ['Enabled', 'Disabled']);
+		$settings->add_radio_setting('Billing', 'PayPal', 'paypal_digitalgoods_enable', 'Enable Digital Goods', 'Enable Digital Goods', PAYPAL_DIGITALGOODS_ENABLE, [TRUE, FALSE], ['Enabled', 'Disabled']);
 		$settings->add_text_setting('Billing', 'PayPal', 'paypal_email', 'Login / Email ', 'Login / Email ', (defined('PAYPAL_EMAIL') ? PAYPAL_EMAIL : ''));
 		$settings->add_text_setting('Billing', 'PayPal', 'paypal_api_username', 'API Username', 'API Username', (defined('PAYPAL_API_USERNAME') ? PAYPAL_API_USERNAME : ''));
 		$settings->add_text_setting('Billing', 'PayPal', 'paypal_api_password', 'API Password', 'API Password', (defined('PAYPAL_API_PASSWORD') ? PAYPAL_API_PASSWORD : ''));

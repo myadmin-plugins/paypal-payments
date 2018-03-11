@@ -33,7 +33,7 @@ class PayPalCheckout {
 	 * @return string the API PayPal Digital Goods URL
 	 */
 	public static function getApiPaypalDgUrl() {
-		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalDgUrl: self::$livePaypalDgUrl;
+		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalDgUrl : self::$livePaypalDgUrl;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class PayPalCheckout {
 	 * @return string the API PayPal URL
 	 */
 	public static function getApiPaypalUrl() {
-		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalUrl: self::$livePaypalUrl;
+		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalUrl : self::$livePaypalUrl;
 	}
 
 	/**
@@ -120,10 +120,10 @@ class PayPalCheckout {
 		foreach ($items as $index => $item) {
 			//if (sizeof($items) > 1 && $index == (sizeof($items) - 1))
 			//	$agreement++;
-			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_NAME{$index}=" . urlencode($item['name']);
-			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_AMT{$index}=" . urlencode($item['amt']);
-			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_QTY{$index}=" . urlencode($item['qty']);
-			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_ITEMCATEGORY{$index}=" . urlencode($category);
+			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_NAME{$index}=".urlencode($item['name']);
+			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_AMT{$index}=".urlencode($item['amt']);
+			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_QTY{$index}=".urlencode($item['qty']);
+			$nvpstr .= "&L_PAYMENTREQUEST_{$agreement}_ITEMCATEGORY{$index}=".urlencode($category);
 		}
 		myadmin_log('billing', 'info', "got nvpstr {$nvpstr}", __LINE__, __FILE__);
 		//' Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment.  If an error occurred, show the resulting errors
@@ -131,7 +131,7 @@ class PayPalCheckout {
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		myadmin_log('billing', 'info', 'SetSubscriptionExpressCheckout returned'.json_encode($resArray), __LINE__, __FILE__);
 		$ack = mb_strtoupper($resArray['ACK']);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = $resArray['TOKEN'];
 			self::setSessionData('TOKEN', $token);
 		}
@@ -186,9 +186,9 @@ class PayPalCheckout {
 		$nvpstr .= '&REQCONFIRMSHIPPING=0';
 		$nvpstr .= '&NOSHIPPING=1';
 		foreach ($items as $index => $item) {
-			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=" . urlencode($item['name']);
-			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=" . urlencode($item['amt']);
-			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=" . urlencode($item['qty']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=".urlencode($item['name']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=".urlencode($item['amt']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=".urlencode($item['qty']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_ITEMCATEGORY{$index}=Digital";
 		}
 		//' Make the API call to PayPal
@@ -196,7 +196,7 @@ class PayPalCheckout {
 		//' If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
 			self::setSessionData('TOKEN', $token);
 		}
@@ -225,15 +225,15 @@ class PayPalCheckout {
 		$nvpstr .= '&REQCONFIRMSHIPPING=0';
 		$nvpstr .= '&NOSHIPPING=1';
 		foreach ($items as $index => $item) {
-			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=" . urlencode($item['name']);
-			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=" . urlencode($item['amt']);
-			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=" . urlencode($item['qty']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_NAME{$index}=".urlencode($item['name']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_AMT{$index}=".urlencode($item['amt']);
+			$nvpstr .= "&L_PAYMENTREQUEST_0_QTY{$index}=".urlencode($item['qty']);
 			$nvpstr .= "&L_PAYMENTREQUEST_0_ITEMCATEGORY{$index}=Physical";
 		}
 		// Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment. If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
 			self::setSessionData('TOKEN', $token);
 		}
@@ -262,7 +262,7 @@ class PayPalCheckout {
 		// Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment. If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
 			self::setSessionData('TOKEN', $token);
 		}
@@ -308,7 +308,7 @@ class PayPalCheckout {
 		// Make the API call to PayPal. If the API call succeeded, then redirect the buyer to PayPal to begin to authorize payment. If an error occurred, show the resulting errors
 		$resArray = self::paypal_hash_call('SetExpressCheckout', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			$token = urldecode($resArray['TOKEN']);
 			self::setSessionData('TOKEN', $token);
 		}
@@ -374,12 +374,12 @@ class PayPalCheckout {
 		// At this point, the buyer has completed authorizing the payment at PayPal.  The function will call PayPal to obtain the details of the authorization, including any shipping information of the
 		// buyer.  Remember, the authorization is not a completed transaction at this state - the buyer still needs an additional step to finalize the transaction
 		// Build a second API request to PayPal, using the token as the ID to get the details on the payment authorization
-		$nvpstr= '&TOKEN='.urlencode($token);
+		$nvpstr = '&TOKEN='.urlencode($token);
 		// Make the API call and store the results in an array. If the call was a success, show the authorization details, and provide an action to complete the payment. If failed, show the error
 		$resArray = self::paypal_hash_call('GetExpressCheckoutDetails', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
-		myadmin_log('billing', 'info', "GetExpressCheckoutDetails {$nvpstr}  returned " . json_encode($resArray), __LINE__, __FILE__);
-		if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING')
+		myadmin_log('billing', 'info', "GetExpressCheckoutDetails {$nvpstr}  returned ".json_encode($resArray), __LINE__, __FILE__);
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING')
 			return $resArray;
 		else
 			return FALSE;
@@ -423,7 +423,7 @@ class PayPalCheckout {
 	 */
 	public static function ConfirmPayment($token, $paymentType, $currencyCodeType, $payerID, $FinalPaymentAmt) {
 		/* Gather the information to make the final call to finalize the PayPal payment.  The variable nvpstr holds the name value pairs */
-		$nvpstr  = '&TOKEN='.urlencode($token)
+		$nvpstr = '&TOKEN='.urlencode($token)
 		. '&PAYERID='.urlencode($payerID)
 		. '&PAYMENTREQUEST_0_PAYMENTACTION='.urlencode($paymentType)
 		. '&PAYMENTREQUEST_0_AMT='.urlencode($FinalPaymentAmt)
@@ -431,7 +431,7 @@ class PayPalCheckout {
 		. '&IPADDRESS='.urlencode($_SERVER['SERVER_NAME']);
 		/* Make the call to PayPal to finalize payment If an error occurred, show the resulting errors */
 		$resArray = self::paypal_hash_call('DoExpressCheckoutPayment', $nvpstr);
-		myadmin_log('billing', 'info', "DoExpressCheckoutPayment {$nvpstr}  returned " . json_encode($resArray), __LINE__, __FILE__);
+		myadmin_log('billing', 'info', "DoExpressCheckoutPayment {$nvpstr}  returned ".json_encode($resArray), __LINE__, __FILE__);
 		/* Display the API response back to the browser. If the response from PayPal was a success, display the response parameters' If the response was an error, display the errors received using APIError.php. */
 		$ack = mb_strtoupper($resArray['ACK']);
 		return $resArray;
@@ -499,7 +499,7 @@ class PayPalCheckout {
 		if (self::$useProxy === TRUE)
 			curl_setopt($ch, CURLOPT_PROXY, self::$proxyHost.':'.self::$proxyPort);
 		//NVPRequest for submitting to server
-		$nvpreq= 'METHOD='.urlencode($methodName).'&VERSION='.urlencode(self::$version).'&PWD='.urlencode(self::getApiPassword()).'&USER='.urlencode(self::getApiUsername()).'&SIGNATURE='.urlencode(self::getApiSignature()) . $nvpStr.'&BUTTONSOURCE='.urlencode(self::$sBNCode);
+		$nvpreq = 'METHOD='.urlencode($methodName).'&VERSION='.urlencode(self::$version).'&PWD='.urlencode(self::getApiPassword()).'&USER='.urlencode(self::getApiUsername()).'&SIGNATURE='.urlencode(self::getApiSignature()).$nvpStr.'&BUTTONSOURCE='.urlencode(self::$sBNCode);
 		//myadmin_log('paypal', 'debug', $nvpreq, __LINE__, __FILE__);
 		//setting the nvpreq as POST FIELD to curl
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
@@ -532,7 +532,7 @@ class PayPalCheckout {
 	 */
 	public static function RedirectToPayPal($token) {
 		// Redirect to paypal.com here
-		$payPalURL = self::getApiPaypalUrl() . $token;
+		$payPalURL = self::getApiPaypalUrl().$token;
 		header('Location: '.$payPalURL);
 		exit;
 	}
@@ -542,7 +542,7 @@ class PayPalCheckout {
 	 */
 	public static function RedirectToPayPalDG($token) {
 		// Redirect to paypal.com here
-		$payPalURL = self::getApiPaypalDgUrl() . $token;
+		$payPalURL = self::getApiPaypalDgUrl().$token;
 		header('Location: '.$payPalURL);
 		exit;
 	}
@@ -559,17 +559,17 @@ class PayPalCheckout {
 	public static function deformatNVP($nvpstr) {
 		$intial = 0;
 		$nvpArray = [];
-		while(mb_strlen($nvpstr)) {
+		while (mb_strlen($nvpstr)) {
 			//postion of Key
-			$keypos= mb_strpos($nvpstr, '=');
+			$keypos = mb_strpos($nvpstr, '=');
 			//position of value
-			$valuepos = mb_strpos($nvpstr, '&') ? mb_strpos($nvpstr, '&'): mb_strlen($nvpstr);
+			$valuepos = mb_strpos($nvpstr, '&') ? mb_strpos($nvpstr, '&') : mb_strlen($nvpstr);
 			/*getting the Key and Value values and storing in a Associative Array*/
-			$keyval=substr($nvpstr, $intial, $keypos);
-			$valval=substr($nvpstr, $keypos+1, $valuepos-$keypos-1);
+			$keyval = substr($nvpstr, $intial, $keypos);
+			$valval = substr($nvpstr, $keypos + 1, $valuepos - $keypos - 1);
 			//decoding the respose
-			$nvpArray[urldecode($keyval)] =urldecode($valval);
-			$nvpstr=substr($nvpstr, $valuepos+1, mb_strlen($nvpstr));
+			$nvpArray[urldecode($keyval)] = urldecode($valval);
+			$nvpstr = substr($nvpstr, $valuepos + 1, mb_strlen($nvpstr));
 		}
 		return $nvpArray;
 	}
