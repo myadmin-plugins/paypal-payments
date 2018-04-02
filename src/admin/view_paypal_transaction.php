@@ -265,6 +265,7 @@ function get_paypal_cats_and_fields() {
 					'item_tax_rate1',
 					'item_tax_rate_double1',
 					'lid',
+					'custid',
 					'locked',
 					'shipping_discount',
 					'transaction_subject',
@@ -364,6 +365,8 @@ function get_paypal_cats_and_fields() {
 				foreach ($db->Record as $key => $value)
 					if ($key == 'lid')
 						$transaction[$key] = $table->make_link('choice=none.edit_customer3&amp;lid='.$value, $value, FALSE, 'target="_blank" title="Edit Customer"');
+					elseif ($key == 'custid')
+						$transaction[$key] = $value == 0 ? '' : $table->make_link('choice=none.edit_customer3&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), FALSE, 'target="_blank" title="Edit Customer"');
 					elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id')
 						$transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, FALSE, 'target="_blank" title="View Payers Transactions"');
 					elseif ($key == 'txn_type' && isset($transaction_types[$value]))
