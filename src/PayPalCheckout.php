@@ -5,8 +5,9 @@ namespace Detain\MyAdminPaypal;
 //include_once __DIR__.'/../../../../include/functions.inc.php';
 include_once __DIR__.'/../../../../include/config/config.settings.php';
 
-class PayPalCheckout {
-	public static $sandboxFlag = FALSE;
+class PayPalCheckout
+{
+	public static $sandboxFlag = false;
 	public static $sBNCode = 'PP-ECWizard';
 	public static $sandboxApiEndpoint = 'https://api-3t.sandbox.paypal.com/nvp';
 	public static $sandboxPaypalUrl = 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=';
@@ -16,15 +17,18 @@ class PayPalCheckout {
 	public static $livePaypalDgUrl = 'https://www.paypal.com/incontext?token=';
 	public static $proxyHost = '';
 	public static $proxyPort = '';
-	public static $useProxy = FALSE;
+	public static $useProxy = false;
 	public static $version = '109.0';
 
-	public function __construct() {
+	public function __construct()
+	{
 	}
 
-	public static function setSessionData($key, $value) {
-		if (session_id() == '')
+	public static function setSessionData($key, $value)
+	{
+		if (session_id() == '') {
 			session_start();
+		}
 		$_SESSION[$key] = $value;
 	}
 
@@ -32,48 +36,54 @@ class PayPalCheckout {
 	 * returns the proper API PayPal Digital Goods URL based on the sandboxFlag setting.
 	 * @return string the API PayPal Digital Goods URL
 	 */
-	public static function getApiPaypalDgUrl() {
-		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalDgUrl : self::$livePaypalDgUrl;
+	public static function getApiPaypalDgUrl()
+	{
+		return self::$sandboxFlag === true ? self::$sandboxPaypalDgUrl : self::$livePaypalDgUrl;
 	}
 
 	/**
 	 * returns the proper API PayPal URL based on the sandboxFlag setting.
 	 * @return string the API PayPal URL
 	 */
-	public static function getApiPaypalUrl() {
-		return self::$sandboxFlag === TRUE ? self::$sandboxPaypalUrl : self::$livePaypalUrl;
+	public static function getApiPaypalUrl()
+	{
+		return self::$sandboxFlag === true ? self::$sandboxPaypalUrl : self::$livePaypalUrl;
 	}
 
 	/**
 	 * returns the proper API Endpoint based on the sandboxFlag setting.
 	 * @return string the API Endpoint
 	 */
-	public static function getApiEndpoint() {
-		return self::$sandboxFlag === TRUE ? self::$sandboxApiEndpoint : self::$liveApiEndpoint;
+	public static function getApiEndpoint()
+	{
+		return self::$sandboxFlag === true ? self::$sandboxApiEndpoint : self::$liveApiEndpoint;
 	}
 
 	/**
 	 * returns the proper API Username based on the sandboxFlag setting.
 	 * @return string the API Username
 	 */
-	public static function getApiUsername() {
-		return self::$sandboxFlag === TRUE ? PAYPAL_SANDBOX_API_USERNAME : PAYPAL_API_USERNAME;
+	public static function getApiUsername()
+	{
+		return self::$sandboxFlag === true ? PAYPAL_SANDBOX_API_USERNAME : PAYPAL_API_USERNAME;
 	}
 
 	/**
 	 * returns the proper API Password based on the sandboxFlag setting.
 	 * @return string the API Password
 	 */
-	public static function getApiPassword() {
-		return self::$sandboxFlag === TRUE ? PAYPAL_SANDBOX_API_PASSWORD : PAYPAL_API_PASSWORD;
+	public static function getApiPassword()
+	{
+		return self::$sandboxFlag === true ? PAYPAL_SANDBOX_API_PASSWORD : PAYPAL_API_PASSWORD;
 	}
 
 	/**
 	 * returns the proper API Signature based on the sandboxFlag setting.
 	 * @return string the API Signature
 	 */
-	public static function getApiSignature() {
-		return self::$sandboxFlag === TRUE ? PAYPAL_SANDBOX_API_SIGNATURE : PAYPAL_API_SIGNATURE;
+	public static function getApiSignature()
+	{
+		return self::$sandboxFlag === true ? PAYPAL_SANDBOX_API_SIGNATURE : PAYPAL_API_SIGNATURE;
 	}
 
 	/**
@@ -89,9 +99,11 @@ class PayPalCheckout {
 	 * @param string $custom
 	 * @return array
 	 */
-	public static function SetSubscriptionExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items, $period = 1, $repeat_amount = FALSE, $category = 'Physical', $custom = '') {
-		if ($repeat_amount == FALSE)
+	public static function SetSubscriptionExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items, $period = 1, $repeat_amount = false, $category = 'Physical', $custom = '')
+	{
+		if ($repeat_amount == false) {
 			$repeat_amount = $paymentAmount;
+		}
 		//Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		$nvpstr = '';
 		$nvpstr .= '&RETURNURL='.$returnURL;
@@ -102,8 +114,9 @@ class PayPalCheckout {
 		$nvpstr .= '&PAYMENTREQUEST_0_AMT='.$paymentAmount;
 		$nvpstr .= '&PAYMENTREQUEST_0_PAYMENTACTION='.$paymentType;
 		$nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE='.$currencyCodeType;
-		if ($custom != '')
+		if ($custom != '') {
 			$nvpstr .= '&PAYMENTREQUEST_0_CUSTOM='.$custom;
+		}
 		//uncomment this to disable echeck type payments and other delayable ones
 		//$nvpstr .= "&PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD=InstantPaymentOnly";
 		$nvpstr .= '&L_BILLINGTYPE0='.urlencode('RecurringPayments');
@@ -147,12 +160,13 @@ class PayPalCheckout {
 	 * @param bool|float|string $initamt optional amount of initial payment
 	 * @return array
 	 */
-	public static function CreateRecurringPaymentsProfile($token, $payer_id, $amt, $period, $description, $initamt = FALSE) {
+	public static function CreateRecurringPaymentsProfile($token, $payer_id, $amt, $period, $description, $initamt = false)
+	{
 		$str = '&TOKEN='.$token
 			.'&PAYERID='.$payer_id
 			.'&BILLINGTYPE=RecurringPayments'                                  // This must be RecurringPayments for subscriptions, same as it was used in SetExpressCheckout
 			.'&AMT='.$amt
-			. ($initamt !== FALSE ? '&INITAMT='.$initamt : '')
+			. ($initamt !== false ? '&INITAMT='.$initamt : '')
 			.'&CURRENCYCODE='.'USD'                                            // The currency, e.g. US dollars
 			.'&COUNTRYCODE='.'US'                                              // The country code, e.g. US
 			.'&PROFILESTARTDATE='.urlencode(date("Y-m-d\TH:i:s\Z", time()))    // Billing date start, in UTC/GMT format
@@ -176,7 +190,8 @@ class PayPalCheckout {
 	 * @param array $items array of items being purchased
 	 * @return array the response array
 	 */
-	public static function SetExpressCheckoutDG($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items) {
+	public static function SetExpressCheckoutDG($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items)
+	{
 		// Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		$nvpstr = '&PAYMENTREQUEST_0_AMT='.$paymentAmount;
 		$nvpstr .= '&PAYMENTREQUEST_0_PAYMENTACTION='.$paymentType;
@@ -213,12 +228,14 @@ class PayPalCheckout {
 	 * @param string $custom
 	 * @return array
 	 */
-	public static function SetExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items, $custom = '') {
+	public static function SetExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $items, $custom = '')
+	{
 		// Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		$nvpstr = '&PAYMENTREQUEST_0_AMT='.$paymentAmount;
 		$nvpstr .= '&PAYMENTREQUEST_0_PAYMENTACTION='.$paymentType;
-		if ($custom != '')
+		if ($custom != '') {
 			$nvpstr .= '&PAYMENTREQUEST_0_CUSTOM='.$custom;
+		}
 		$nvpstr .= '&RETURNURL='.$returnURL;
 		$nvpstr .= '&CANCELURL='.$cancelURL;
 		$nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE='.$currencyCodeType;
@@ -250,7 +267,8 @@ class PayPalCheckout {
 	 * @param string $cancelURL the page where buyers return to when they cancel the payment review on PayPal
 	 * @return array response array
 	 */
-	public static function CallShortcutExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL) {
+	public static function CallShortcutExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL)
+	{
 		// Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		$nvpstr = '&PAYMENTREQUEST_0_AMT='.$paymentAmount;
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_PAYMENTACTION='.$paymentType;
@@ -287,7 +305,8 @@ class PayPalCheckout {
 	 * @param string $phoneNum the phoneNum  entered on the merchant's site
 	 * @return array the response array
 	 */
-	public static function CallMarkExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $shipToName, $shipToStreet, $shipToCity, $shipToState, $shipToCountryCode, $shipToZip, $shipToStreet2, $phoneNum) {
+	public static function CallMarkExpressCheckout($paymentAmount, $currencyCodeType, $paymentType, $returnURL, $cancelURL, $shipToName, $shipToStreet, $shipToCity, $shipToState, $shipToCountryCode, $shipToZip, $shipToStreet2, $phoneNum)
+	{
 		// Construct the parameter string that describes the SetExpressCheckout API call in the shortcut implementation
 		$nvpstr = '&PAYMENTREQUEST_0_AMT='.$paymentAmount;
 		$nvpstr = $nvpstr.'&PAYMENTREQUEST_0_PAYMENTACTION='.$paymentType;
@@ -370,7 +389,8 @@ class PayPalCheckout {
 	 *        [L_PAYMENTREQUEST_0_ITEMCATEGORY0] => Digital
 	 *        [PAYMENTREQUESTINFO_0_ERRORCODE] => 0
 	 */
-	public static function GetExpressCheckoutDetails($token) {
+	public static function GetExpressCheckoutDetails($token)
+	{
 		// At this point, the buyer has completed authorizing the payment at PayPal.  The function will call PayPal to obtain the details of the authorization, including any shipping information of the
 		// buyer.  Remember, the authorization is not a completed transaction at this state - the buyer still needs an additional step to finalize the transaction
 		// Build a second API request to PayPal, using the token as the ID to get the details on the payment authorization
@@ -379,10 +399,11 @@ class PayPalCheckout {
 		$resArray = self::paypal_hash_call('GetExpressCheckoutDetails', $nvpstr);
 		$ack = mb_strtoupper($resArray['ACK']);
 		myadmin_log('billing', 'info', "GetExpressCheckoutDetails {$nvpstr}  returned ".json_encode($resArray), __LINE__, __FILE__);
-		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING')
+		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			return $resArray;
-		else
-			return FALSE;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -421,7 +442,8 @@ class PayPalCheckout {
 	 *        [PAYMENTINFO_0_ERRORCODE] => 0
 	 *        [PAYMENTINFO_0_ACK] => Success
 	 */
-	public static function ConfirmPayment($token, $paymentType, $currencyCodeType, $payerID, $FinalPaymentAmt) {
+	public static function ConfirmPayment($token, $paymentType, $currencyCodeType, $payerID, $FinalPaymentAmt)
+	{
 		/* Gather the information to make the final call to finalize the PayPal payment.  The variable nvpstr holds the name value pairs */
 		$nvpstr = '&TOKEN='.urlencode($token)
 		. '&PAYERID='.urlencode($payerID)
@@ -456,7 +478,8 @@ class PayPalCheckout {
 	 * @param string $currencyCode currency code value the PayPal API
 	 * @return array The NVP Collection object of the DoDirectPayment Call Response.
 	 */
-	public static function DirectPayment($paymentType, $paymentAmount, $creditCardType, $creditCardNumber, $expDate, $cvv2, $firstName, $lastName, $street, $city, $state, $zip, $countryCode, $currencyCode) {
+	public static function DirectPayment($paymentType, $paymentAmount, $creditCardType, $creditCardNumber, $expDate, $cvv2, $firstName, $lastName, $street, $city, $state, $zip, $countryCode, $currencyCode)
+	{
 		//Construct the parameter string that describes DoDirectPayment
 		$nvpstr = '&AMT='.$paymentAmount;
 		$nvpstr = $nvpstr.'&CURRENCYCODE='.$currencyCode;
@@ -483,21 +506,23 @@ class PayPalCheckout {
 	 * @param string $nvpStr nvp string.
 	 * @return array returns an associative array containing the response from the server.
 	 */
-	public static function paypal_hash_call($methodName, $nvpStr) {
+	public static function paypal_hash_call($methodName, $nvpStr)
+	{
 		//setting the curl parameters.
 		$ch = curl_init();
 		//myadmin_log('paypal', 'debug', self::getApiEndpoint(), __LINE__, __FILE__);
 		curl_setopt($ch, CURLOPT_URL, self::getApiEndpoint());
 		curl_setopt($ch, CURLOPT_VERBOSE, 0);
 		//turning off the server and peer verification(TrustManager Concept).
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		//if USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
 		//Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
-		if (self::$useProxy === TRUE)
+		if (self::$useProxy === true) {
 			curl_setopt($ch, CURLOPT_PROXY, self::$proxyHost.':'.self::$proxyPort);
+		}
 		//NVPRequest for submitting to server
 		$nvpreq = 'METHOD='.urlencode($methodName).'&VERSION='.urlencode(self::$version).'&PWD='.urlencode(self::getApiPassword()).'&USER='.urlencode(self::getApiUsername()).'&SIGNATURE='.urlencode(self::getApiSignature()).$nvpStr.'&BUTTONSOURCE='.urlencode(self::$sBNCode);
 		//myadmin_log('paypal', 'debug', $nvpreq, __LINE__, __FILE__);
@@ -506,7 +531,7 @@ class PayPalCheckout {
 		//getting response from server
 		$response = curl_exec($ch);
 		//if (function_exists('myadmin_log'))
-			//myadmin_log('billing', 'info', "PayPal {$methodName} Call Got Curl Response {$response}", __LINE__, __FILE__);
+		//myadmin_log('billing', 'info', "PayPal {$methodName} Call Got Curl Response {$response}", __LINE__, __FILE__);
 		//converting NVPResponse to an Associative Array
 		$nvpResArray = self::deformatNVP($response);
 		$nvpReqArray = self::deformatNVP($nvpreq);
@@ -515,7 +540,7 @@ class PayPalCheckout {
 			// moving to display page to display curl errors
 			self::setSessionData('curl_error_no', curl_errno($ch));
 			self::setSessionData('curl_error_msg', curl_error($ch));
-			//Execute the Error handling module to display errors.
+		//Execute the Error handling module to display errors.
 		} else {
 			//closing the curl
 			curl_close($ch);
@@ -530,7 +555,8 @@ class PayPalCheckout {
 	 *
 	 * @param $token
 	 */
-	public static function RedirectToPayPal($token) {
+	public static function RedirectToPayPal($token)
+	{
 		// Redirect to paypal.com here
 		$payPalURL = self::getApiPaypalUrl().$token;
 		header('Location: '.$payPalURL);
@@ -540,7 +566,8 @@ class PayPalCheckout {
 	/**
 	 * @param $token
 	 */
-	public static function RedirectToPayPalDG($token) {
+	public static function RedirectToPayPalDG($token)
+	{
 		// Redirect to paypal.com here
 		$payPalURL = self::getApiPaypalDgUrl().$token;
 		header('Location: '.$payPalURL);
@@ -556,7 +583,8 @@ class PayPalCheckout {
 	 * @param $nvpstr
 	 * @return array
 	 */
-	public static function deformatNVP($nvpstr) {
+	public static function deformatNVP($nvpstr)
+	{
 		$intial = 0;
 		$nvpArray = [];
 		while (mb_strlen($nvpstr)) {

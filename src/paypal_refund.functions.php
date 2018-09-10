@@ -17,37 +17,42 @@
  * @internal param \The $string API method name
  * @internal param \The $string POST Message fields in &name=value pair format
  */
-function PayPalHttpPost($methodName_, $nvpStr_, $env = 'live') {
+function PayPalHttpPost($methodName_, $nvpStr_, $env = 'live')
+{
 	$API_UserName = urlencode(PAYPAL_API_USERNAME);
 	$API_Password = urlencode(PAYPAL_API_PASSWORD);
 	$API_Signature = urlencode(PAYPAL_API_SIGNATURE);
-	if ('sandbox' === $env)
+	if ('sandbox' === $env) {
 		$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
-	else
+	} else {
 		$API_Endpoint = 'https://api-3t.paypal.com/nvp';
+	}
 	$version = urlencode('119');
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
 	curl_setopt($ch, CURLOPT_VERBOSE, 0);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
 	$httpResponse = curl_exec($ch);
-	if (!$httpResponse)
+	if (!$httpResponse) {
 		exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+	}
 	myadmin_log('billing', 'info', $httpResponse, __LINE__, __FILE__);
 	$httpResponseAr = explode('&', $httpResponse);
 	$httpParsedResponseAr = [];
 	foreach ($httpResponseAr as $i => $value) {
 		$tmpAr = explode('=', $value);
-		if (count($tmpAr) > 1)
+		if (count($tmpAr) > 1) {
 			$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+		}
 	}
-	if ((0 == count($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr))
+	if ((0 == count($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
 		exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+	}
 	return $httpParsedResponseAr;
 }
 
@@ -55,7 +60,8 @@ function PayPalHttpPost($methodName_, $nvpStr_, $env = 'live') {
  * @param null $transactionId
  * @return mixed
  */
-function refundPaypalTransaction($transactionId = null) {
+function refundPaypalTransaction($transactionId = null)
+{
 	require_once __DIR__.'/paypal.functions.inc.php';
 	if ($transactionId === null) {
 		$result['status'] = 'Failed';

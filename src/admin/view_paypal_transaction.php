@@ -7,7 +7,8 @@
 	 * @category PayPal
 	 */
 
-	function get_paypal_transaction_types() {
+	function get_paypal_transaction_types()
+	{
 		return [
 			'-' => 'Credit card chargeback if the case_type variable contains chargeback',
 			'adjustment' => 'A dispute has been resolved and closed',
@@ -43,8 +44,9 @@
 /**
  * @return array
  */
-function get_paypal_cats_and_fields() {
-		return [
+function get_paypal_cats_and_fields()
+{
+	return [
 			[
 				'name' => 'Transaction and Notification Information',
 				'desc' => 'Transaction and notification-related variables identify the merchant that is receiving a payment or other notification and transaction-specific information.',
@@ -312,7 +314,7 @@ function get_paypal_cats_and_fields() {
 				),
 			),*/
 		];
-	}
+}
 
 /**
  * view_paypal_transaction()
@@ -321,7 +323,8 @@ function get_paypal_cats_and_fields() {
  * @throws \Exception
  * @throws \SmartyException
  */
-	function view_paypal_transaction() {
+	function view_paypal_transaction()
+	{
 		page_title('PayPal Transaction Information');
 		function_requirements('has_acl');
 		if ($GLOBALS['tf']->ima != 'admin' || !has_acl('client_billing')) {
@@ -362,18 +365,18 @@ function get_paypal_cats_and_fields() {
 			$smarty = new TFSmarty;
 			while ($db->next_record(MYSQL_ASSOC)) {
 				$transaction = [];
-				foreach ($db->Record as $key => $value)
-					if ($key == 'lid')
-						$transaction[$key] = $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, FALSE, 'target="_blank" title="Edit Customer"');
-					elseif ($key == 'custid')
-						$transaction[$key] = $value == 0 ? '' : $table->make_link('choice=none.edit_customer&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), FALSE, 'target="_blank" title="Edit Customer"');
-					elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id')
-						$transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, FALSE, 'target="_blank" title="View Payers Transactions"');
-					elseif ($key == 'txn_type' && isset($transaction_types[$value]))
+				foreach ($db->Record as $key => $value) {
+					if ($key == 'lid') {
+						$transaction[$key] = $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, false, 'target="_blank" title="Edit Customer"');
+					} elseif ($key == 'custid') {
+						$transaction[$key] = $value == 0 ? '' : $table->make_link('choice=none.edit_customer&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), false, 'target="_blank" title="Edit Customer"');
+					} elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id') {
+						$transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, false, 'target="_blank" title="View Payers Transactions"');
+					} elseif ($key == 'txn_type' && isset($transaction_types[$value])) {
 						$transaction[$key] = '<strong title="'.htmlspecial($transaction_types[$value]).'">'.$value.'</strong>';
-					elseif (in_array($key, ['verify_sign']))
-						$transaction[$key] = wordwrap($value, 28, '<br>', TRUE);
-					elseif ($key == 'custom') {
+					} elseif (in_array($key, ['verify_sign'])) {
+						$transaction[$key] = wordwrap($value, 28, '<br>', true);
+					} elseif ($key == 'custom') {
 						if (preg_match('/^COMPRESSED(?P<data>.+)$/', $value, $matches)) {
 							$orig_value = $value;
 							$value = gzuncompress(base64_decode(str_replace(' ', '+', $matches['data'])));
@@ -394,22 +397,25 @@ function get_paypal_cats_and_fields() {
 							if (preg_match('/^SERVICE(?P<module>\D+)(?P<id>\d+)$/', $invoice, $matches)) {
 								$module = $matches['module'];
 								$service = $GLOBALS['tf']->db->real_escape($matches['id']);
-								if ($module == 'vps')
+								if ($module == 'vps') {
 									$suffix = '3';
-								elseif ($module == 'webhosting')
+								} elseif ($module == 'webhosting') {
 									$suffix = '2';
-								else
+								} else {
 									$suffix = '';
-								$invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].$suffix.'&amp;id='.$service, $invoice, FALSE, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
+								}
+								$invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].$suffix.'&amp;id='.$service, $invoice, false, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
 							}
 						}
 						//$transaction[$key] = wordwrap(implode(',', $invoices), 28, '<br>');
 						$transaction[$key] = implode(',', $invoices);
 					}
 					//elseif ($key == 'lid')
-						//$transaction[$key] = $table->make_link('choice=none.search&amp;search=' . urlencode($value), $value, 'Search for "'.$value.'"', 'target="_blank"');
-					else
+					//$transaction[$key] = $table->make_link('choice=none.search&amp;search=' . urlencode($value), $value, 'Search for "'.$value.'"', 'target="_blank"');
+					else {
 						$transaction[$key] = $value;
+					}
+				}
 				//print_r($db->Record);
 				$transactions[] = $transaction;
 			}
