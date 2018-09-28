@@ -55,30 +55,30 @@ class Plugin
 	public static function getRequirements(GenericEvent $event)
 	{
 		$loader = $event->getSubject();
-		$loader->add_page_requirement('view_paypal_transaction', '/../vendor/detain/myadmin-paypal-payments/src/admin/view_paypal_transaction.php');
-		$loader->add_page_requirement('paypal_history', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_history.php');
-		$loader->add_page_requirement('paypal_transactions', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_transactions.php');
-		$loader->add_page_requirement('paypal_refund', '/../vendor/detain/myadmin-paypal-payments/src/admin/paypal_refund.php');
-		$loader->add_requirement('get_paypal_adaptive_accounts_ipn_messages', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_auction_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_buyer_information_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_dispute_resolution_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_global_shipping_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_mass_pay_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_payment_information_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_pay_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_pdt_specific_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_preapproval_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_recurring_payment_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_subscription_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_transaction_notification_vars', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_link_url', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_subscription_link_url', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_subscription_link', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('get_paypal_link', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('is_paypal_txn_refunded', '/../vendor/detain/myadmin-paypal-payments/src/paypal.functions.inc.php');
-		$loader->add_requirement('PayPalHttpPost', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
-		$loader->add_page_requirement('refundPaypalTransaction', '/../vendor/detain/myadmin-paypal-payments/src/paypal_refund.functions.php');
+		$loader->add_page_requirement('view_paypal_transaction', '/../vendor/detain/paypal-payments/src/admin/view_paypal_transaction.php');
+		$loader->add_page_requirement('paypal_history', '/../vendor/detain/paypal-payments/src/admin/paypal_history.php');
+		$loader->add_page_requirement('paypal_transactions', '/../vendor/detain/paypal-payments/src/admin/paypal_transactions.php');
+		$loader->add_page_requirement('paypal_refund', '/../vendor/detain/paypal-payments/src/admin/paypal_refund.php');
+		$loader->add_requirement('get_paypal_adaptive_accounts_ipn_messages', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_auction_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_buyer_information_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_dispute_resolution_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_global_shipping_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_mass_pay_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_payment_information_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_pay_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_pdt_specific_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_preapproval_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_recurring_payment_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_transaction_notification_vars', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_link_url', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_link_url', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_subscription_link', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('get_paypal_link', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('is_paypal_txn_refunded', '/../vendor/detain/paypal-payments/src/paypal.functions.inc.php');
+		$loader->add_requirement('PayPalHttpPost', '/../vendor/detain/paypal-payments/src/paypal_refund.functions.php');
+		$loader->add_page_requirement('refundPaypalTransaction', '/../vendor/detain/paypal-payments/src/paypal_refund.functions.php');
 	}
 
 	/**
