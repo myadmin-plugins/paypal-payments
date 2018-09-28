@@ -1,5 +1,5 @@
 {
-	"name": "detain/paypal-payments",
+	"name": "detain/myadmin-paypal-payments",
 	"type": "myadmin-plugin",
 	"description": "Paypal handling plugin for MyAdmin",
 	"keywords": [
