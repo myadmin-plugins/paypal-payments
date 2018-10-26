@@ -1,5 +1,5 @@
 <?php          
-include 'include/functions.inc.php';
+include __DIR__.'/../../../../include/functions.inc.php';
 $db = get_module_db('default');
 $db2 = get_module_db('default');
 $fields = [];   
