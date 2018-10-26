@@ -407,7 +407,7 @@ function is_paypal_txn_refunded($txn_id, $module = 'default')
 	$settings = \get_module_settings($module);
 	$db = get_module_db($module);
 	$safe = $db->real_escape($txn_id);
-	$db->query("select * from paypal where payment_status='Refunded' and parent_txn_id='{$safe}';", __LINE__, __FILE__);
+	$db->query("select * from paypal where payment_status='Refunded' and extra like '%parent_txn_id%{$safe}%'", __LINE__, __FILE__);
 	if ($db->num_rows() > 0) {
 		$refunded = true;
 	}
