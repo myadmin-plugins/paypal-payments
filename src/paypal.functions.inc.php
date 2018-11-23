@@ -373,7 +373,7 @@ function get_paypal_subscription_link_url($custom, $service_cost, $description =
  * @param int $days_till_first_payment defaults to 1, optional delay before the first payment is sent
  * @return string the a href link
  */
-function get_paypal_subscription_link($custom, $service_cost, $description = '', $link_text = 'Setup Paypal Subscription', $days_till_first_payment = 1, $frequency = 1)
+function get_paypal_subscription_link($custom, $service_cost, $description = '', $link_text = 'Setup PayPal Subscription', $days_till_first_payment = 1, $frequency = 1)
 {
 	$link = '<a href="'.get_paypal_subscription_link_url($custom, $service_cost, $description, $days_till_first_payment, $frequency).'" target="_blank">'.$link_text.'</a>';
 	return $link;
