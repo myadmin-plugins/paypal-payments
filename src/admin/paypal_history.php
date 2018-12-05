@@ -19,5 +19,5 @@
 			dialog('Not admin', 'Not Admin or you lack the permissions to view this page.');
 			return false;
 		}
-		add_output(render_form('paypal_history', ['module' => $GLOBALS['tf']->variables->request['module']]));
+		add_output(render_form('paypal_history'));
 	}
