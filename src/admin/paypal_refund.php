@@ -50,7 +50,7 @@ function paypal_refund()
 		$table->add_field($table->make_input('refund_amount',$transactAmount,25), 'l');
 		$table->add_row();
 		$table->add_field('Refund Options', 'l');
-		$table->add_field($table->make_radio('refund_opt', 'API') . 'Adjust the payment invoice', 'l');
+		$table->add_field($table->make_radio('refund_opt', 'API', 'API') . 'Adjust the payment invoice', 'l');
 		$table->add_row();
 		$table->add_field("", 'l');
 		$table->add_field($table->make_radio('refund_opt', 'APISCIU') . 'Adjust payment invoice + set charge invoice unpaid', 'l');
@@ -59,7 +59,7 @@ function paypal_refund()
 		$table->add_field($table->make_radio('refund_opt', 'DPIDCI') . 'Delete payment invoice + Delete charge invoice', 'l');
 		$table->add_row();
 		$table->add_field("", 'l');
-		$table->add_field($table->make_radio('refund_opt', 'JRM', 'JRM') . 'Just Refund the money', 'l');
+		$table->add_field($table->make_radio('refund_opt', 'JRM') . 'Just Refund the money', 'l');
 		$table->add_row();
 		$table->add_field('Memo', 'l');
 		$table->add_field('<textarea rows="4" cols="50" name="memo"></textarea>');
