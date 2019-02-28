@@ -387,7 +387,7 @@ function get_paypal_cats_and_fields()
 								$value = gzdecode(base64_decode(str_replace(' ', '+', $matches['data'])));
 								myadmin_log('admin', 'info', "Uncompressed Custom To - {$value}", __LINE__, __FILE__);
 								if ($value == '') {
-									myadmin_log('admin', 'info', "Reverting Blank Custom To {$orig_value}", __LINE__, __FILE__);
+									myadmin_log('admin', 'info', "Reverting Blank Custom To {$orig_value}", __LINE__, __FILE__, $module);
 									$value = $orig_value;
 								}
 							}
