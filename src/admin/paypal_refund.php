@@ -47,7 +47,7 @@ function paypal_refund()
 		$table->add_field($select_serv, 'l');
 		$table->add_row();
 		$table->add_field('Amount To be Refund', 'l');
-		$table->add_field($table->make_input('refund_amount',$transactAmount,25), 'l');
+		$table->add_field($table->make_input('refund_amount',$transactAmount,25,false,'id="partialtext"'), 'l');
 		$table->add_row();
 		$table->add_field('Refund Options', 'l');
 		$table->add_field($table->make_radio('refund_opt', 'API', 'API') . 'Adjust the payment invoice', 'l');
@@ -83,6 +83,8 @@ function paypal_refund()
 			if(opt_val == \'Full\') {
 				$("select[name=\'refund_amount_opt\']").parents("tr").next().hide();
 			} else {
+				selectedAmount = opt_val.split("_");
+				$("#partialtext").val(selectedAmount[2]);
 				$("select[name=\'refund_amount_opt\']").parents("tr").next().show();
 			}
 		}
