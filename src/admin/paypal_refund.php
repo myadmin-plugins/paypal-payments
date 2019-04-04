@@ -19,8 +19,9 @@ function paypal_refund()
 		return;
 	}
 	$desc = "PayPal Payment {$GLOBALS['tf']->variables->request['transact_id']}";
-	if (isset($GLOBALS['tf']->variables->request['amount']))
+	if (isset($GLOBALS['tf']->variables->request['amount'])) {
 		$transactAmount = $GLOBALS['tf']->variables->request['amount'];
+	}
 	$db = clone $GLOBALS['tf']->db;
 	$db->query("SELECT * FROM invoices WHERE invoices_description = '$desc'");
 	$select_serv = '<select name="refund_amount_opt" onchange="update_partial_row()">';
@@ -47,7 +48,7 @@ function paypal_refund()
 		$table->add_field($select_serv, 'l');
 		$table->add_row();
 		$table->add_field('Amount To be Refund', 'l');
-		$table->add_field($table->make_input('refund_amount',$transactAmount,25,false,'id="partialtext"'), 'l');
+		$table->add_field($table->make_input('refund_amount', $transactAmount, 25, false, 'id="partialtext"'), 'l');
 		$table->add_row();
 		$table->add_field('Refund Options', 'l');
 		$table->add_field($table->make_radio('refund_opt', 'API', 'API') . 'Adjust the payment invoice', 'l');
@@ -65,7 +66,7 @@ function paypal_refund()
 		$table->add_field('<textarea rows="4" cols="50" name="memo"></textarea>');
 		$table->add_row();
 		$table->add_field("&nbsp;");
-		$table->add_field("<b>Note: </b> For Partial Refund Memo is required.",'l');
+		$table->add_field("<b>Note: </b> For Partial Refund Memo is required.", 'l');
 		$table->add_row();
 		$table->add_field('Are you sure want to Refund ?', 'l');
 		$table->add_field($table->make_radio('confirmation', 'Yes', false).'Yes'.$table->make_radio('confirmation', 'No', true).'No', 'l');
@@ -116,8 +117,9 @@ function paypal_refund()
 			$refund_type = 'Partial';
 		}
 		$amount = $GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full' ? $transactAmount : $GLOBALS['tf']->variables->request['refund_amount'];
-		if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full')
+		if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full') {
 			$memo = $GLOBALS['tf']->variables->request['memo'];
+		}
 		// Set request-specific fields.
 		$transactionID = urlencode($transact_ID);
 		$refundType = urlencode($refund_type); // or 'Partial'
@@ -156,25 +158,29 @@ function paypal_refund()
 			$db = clone $GLOBALS['tf']->db;
 			$dbC = clone $GLOBALS['tf']->db;
 			$dbU = clone $GLOBALS['tf']->db;
-			if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full')
+			if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full') {
 				$invoices = [$invoiceId];
-			elseif ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full')
+			} elseif ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') {
 				$invoices = array_keys($serviceAmount);
-            
-            foreach ($invoices as $inv) {
+			}
+			
+			foreach ($invoices as $inv) {
 				$dbC->query("SELECT * FROM invoices WHERE invoices_id = {$inv}");
-				if($dbC->num_rows() > 0) {
+				if ($dbC->num_rows() > 0) {
 					$dbC->next_record(MYSQL_ASSOC);
 					$updateInv = $dbC->Record;
-					if ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full')
+					if ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') {
 						$amount = $dbC->Record['invoices_amount'];
+					}
 					$invUpdateAmount = bcsub($dbC->Record['invoices_amount'], $amount, 2);
-					if($GLOBALS['tf']->variables->request['refund_opt'] == 'API' || $GLOBALS['tf']->variables->request['refund_opt'] == 'APISCIU')
+					if ($GLOBALS['tf']->variables->request['refund_opt'] == 'API' || $GLOBALS['tf']->variables->request['refund_opt'] == 'APISCIU') {
 						$dbU->query("UPDATE invoices SET invoices_amount={$invUpdateAmount} WHERE invoices_id = {$updateInv['invoices_id']}");
-					if($GLOBALS['tf']->variables->request['refund_opt'] == 'APISCIU')
+					}
+					if ($GLOBALS['tf']->variables->request['refund_opt'] == 'APISCIU') {
 						$dbU->query("UPDATE invoices SET invoices_paid = 0 WHERE invoices_id = {$updateInv['invoices_extra']}");
+					}
 
-					if($GLOBALS['tf']->variables->request['refund_opt'] == 'DPIDCI') {
+					if ($GLOBALS['tf']->variables->request['refund_opt'] == 'DPIDCI') {
 						$dbU->query("UPDATE invoices SET invoices_amount={$invUpdateAmount},invoices_deleted=1 WHERE invoices_id = {$updateInv['invoices_id']}");
 						$dbU->query("UPDATE invoices SET invoices_paid = 0,invoices_deleted=1 WHERE invoices_id = {$updateInv['invoices_extra']}");
 					}
