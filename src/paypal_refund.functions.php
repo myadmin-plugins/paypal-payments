@@ -94,13 +94,13 @@ function refundPaypalTransaction($transactionId = null)
 		$result['refundNetAmt'] = urldecode($httpParsedResponseAr['NETREFUNDAMT']);
 		$result['refundTotalAmt'] = urlencode($httpParsedResponseAr['TOTALREFUNDEDAMOUNT']);
 		myadmin_log('billing', 'info', json_encode($httpParsedResponseAr), __LINE__, __FILE__);
-        $db = clone $GLOBALS['tf']->db;
-        $db2 = clone $db;
-        $transactionID = $db->real_escape($transactionID);
-        $db->query("select invoices_extra from invoices where invoices_type=10 and invoices_description='PayPal Payment {$transactionID}'", __LINE__, __FILE__);
-        while ($db->next_record(MYSQL_ASSOC)) {
-            $db->query("update invoices set invoices_paid=0, invoices_type=2 where invoices_id={$db->Record['invoices_extra']}", __LINE__, __FILE__);
-        }
+		$db = clone $GLOBALS['tf']->db;
+		$db2 = clone $db;
+		$transactionID = $db->real_escape($transactionID);
+		$db->query("select invoices_extra from invoices where invoices_type=10 and invoices_description='PayPal Payment {$transactionID}'", __LINE__, __FILE__);
+		while ($db->next_record(MYSQL_ASSOC)) {
+			$db->query("update invoices set invoices_paid=0, invoices_type=2 where invoices_id={$db->Record['invoices_extra']}", __LINE__, __FILE__);
+		}
 		return $result;
 	} else {
 		$result['status'] = 'Failed';
