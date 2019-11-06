@@ -338,8 +338,8 @@ function get_paypal_link_url($custom, $service_cost, $description = '')
 	if (mb_strlen($custom) > 200) {
 		$custom = 'COMPRESSED'.base64_encode(gzcompress($custom));
 	}
-	//return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business='.PAYPAL.'&item_name='.$description.'&custom='.htmlspecial($custom).'&buyer_credit_promo_code=&buyer_credit_product_category=&buyer_credit_shipping_method=&buyer_credit_user_address_change='.'&amount='.htmlspecial(number_format($service_cost, 2)).'&no_shipping=0&no_note=1&currency_code=USD&lc=US&bn=PP%2dBuyNowBF&charset=UTF%2d8';
-	return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business='.PAYPAL.'&lc=US&item_name='.$description.'&item_number=001&amount='.htmlspecial(number_format($service_cost, 2)).'&currency_code=USD&button_subtype=services&no_note=1&no_shipping=1&tax_rate=0%2e000&shipping=0%2e00&bn=PP%2dBuyNowBF%3abtn_buynowCC_LG%2egif%3aNonHosted'.'&custom='.htmlspecial($custom);
+	return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business='.PAYPAL.'&item_name='.$description.'&custom='.htmlspecial($custom).'&buyer_credit_promo_code=&buyer_credit_product_category=&buyer_credit_shipping_method=&buyer_credit_user_address_change='.'&amount='.htmlspecial(number_format($service_cost, 2)).'&no_shipping=0&no_note=1&currency_code=USD&lc=US&bn=PP%2dBuyNowBF&charset=UTF%2d8';
+	//return 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business='.PAYPAL.'&lc=US&item_name='.$description.'&item_number=001&amount='.htmlspecial(number_format($service_cost, 2)).'&currency_code=USD&button_subtype=services&no_note=1&no_shipping=1&tax_rate=0%2e000&shipping=0%2e00&bn=PP%2dBuyNowBF%3abtn_buynowCC_LG%2egif%3aNonHosted'.'&custom='.htmlspecial($custom);
 }
 
 /**
