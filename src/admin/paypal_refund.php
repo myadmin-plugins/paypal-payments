@@ -69,7 +69,7 @@ function paypal_refund()
 		$table->add_field("<b>Note: </b> For Partial Refund Memo is required.", 'l');
 		$table->add_row();
 		$table->add_field('Are you sure want to Refund ?', 'l');
-		$table->add_field($table->make_radio('confirmation', 'Yes', false).'Yes'.$table->make_radio('confirmation', 'No', true).'No', 'l');
+		$table->add_field($table->make_radio('confirmation', 'Yes', 'Yes').'Yes'.$table->make_radio('confirmation', 'No', true).'No', 'l');
 		$table->add_row();
 		$table->set_colspan(2);
 		$table->add_field($table->make_submit('Confirm'));
