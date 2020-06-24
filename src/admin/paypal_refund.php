@@ -24,19 +24,13 @@ function paypal_refund()
 	}
 	$db = clone $GLOBALS['tf']->db;
 	$db->query("SELECT * FROM invoices WHERE invoices_description = '$desc'");
-	$select_serv = '<select name="refund_amount_opt" onchange="update_partial_row()">';
-	$select_serv .= '<optgroup label="Refund All Services">';
-	$select_serv .= '<option value="Full">$'.$transactAmount.' Refund Full Amount</option>';
-	$select_serv .= '</optgroup>';
-	$select_serv .= '<optgroup label="Refund Any Service">';
+	$checkbox = '';
 	if ($db->num_rows() > 0) {
 		while ($db->next_record(MYSQL_ASSOC)) {
 			$serviceAmount[$db->Record['invoices_id']] = $db->Record['invoices_amount'];
-			$select_serv .= '<option value="'.$db->Record['invoices_service'].'_'.$db->Record['invoices_id'].'_'.$db->Record['invoices_amount'].'">'.$db->Record['invoices_module'].' '.$db->Record['invoices_service'].' $'.$db->Record['invoices_amount'].'</option>';
+			$checkbox .= '<input type="checkbox" name="refund_amount_opt[]" value="'.$db->Record['invoices_service'].'_'.$db->Record['invoices_id'].'_'.$db->Record['invoices_amount'].'" onclick="return update_partial_payment();" checked>&nbsp;<label for="" style="text-transform: capitalize;"> '.$db->Record['invoices_module'].' '.$db->Record['invoices_service'].' $' .$db->Record['invoices_amount'].'</label><br>';
 		}
 	}
-	$select_serv .= '</optgroup>';
-	$select_serv .= '</select>';
 	if (!isset($GLOBALS['tf']->variables->request['confirmation']) || !verify_csrf('paypal_refund')) {
 		$table = new TFTable;
 		$table->csrf('paypal_refund');
@@ -45,7 +39,7 @@ function paypal_refund()
 		$table->add_hidden('transact_id', $GLOBALS['tf']->variables->request['transact_id']);
 		$table->add_hidden('amount', $transactAmount);
 		$table->add_field('Services', 'l');
-		$table->add_field($select_serv, 'l');
+		$table->add_field($checkbox, 'l');
 		$table->add_row();
 		$table->add_field('Amount To be Refund', 'l');
 		$table->add_field($table->make_input('refund_amount', $transactAmount, 25, false, 'id="partialtext"'), 'l');
@@ -76,32 +70,29 @@ function paypal_refund()
 		$table->add_row();
 		add_output($table->get_table());
 		$script = '<script>
-		$(function(){
-			update_partial_row();
-		});
-		function update_partial_row() {
-			opt_val = $("select[name=\'refund_amount_opt\']").val();
-			if(opt_val == \'Full\') {
-				$("select[name=\'refund_amount_opt\']").parents("tr").next().hide();
-			} else {
-				selectedAmount = opt_val.split("_");
-				$("#partialtext").val(selectedAmount[2]);
-				$("select[name=\'refund_amount_opt\']").parents("tr").next().show();
-			}
+		function update_partial_payment() {
+			var ret = 0;
+			$(\'input[type=checkbox]\').each(function () {
+				if (this.checked) {
+					var gg = $(this).val().split("_");
+					ret += parseFloat(gg[2]);
+				}
+			});
+			$(\'#partialtext\').val(ret.toFixed(2));
 		}
 		</script>';
 		add_output($script);
 	} elseif (isset($GLOBALS['tf']->variables->request['confirmation']) && $GLOBALS['tf']->variables->request['confirmation'] === 'Yes') {
-		if ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') {
+		if (!empty($GLOBALS['tf']->variables->request['refund_amount_opt'])) {
 			$continue = true;
-		} else {
-			list($serviceId, $invoiceId, $invoiceAmount) = explode('_', $GLOBALS['tf']->variables->request['refund_amount_opt']);
-			if ($invoiceAmount >= $GLOBALS['tf']->variables->request['refund_amount']) {
-				$continue = true;
-			} else {
-				add_output('Error! You entered Refund amount is greater than invoice amount. Refund amount must be equal or lesser than invoice amount.');
-				return;
-			}
+		}
+		if ($GLOBALS['tf']->variables->request['refund_amount'] > $GLOBALS['tf']->variables->request['amount']) {
+			add_output('Error! You entered Refund amount is greater than invoice amount. Refund amount must be equal or lesser than invoice amount.');
+			$continue = false;
+		}
+		if ($GLOBALS['tf']->variables->request['refund_amount'] <= 0) {
+			add_output('Error! You entered Refund amount is less than or equal to $0. Refund amount must be greater than $0.');
+			$continue = false;
 		}
 	}
 	$transact_ID = $GLOBALS['tf']->variables->request['transact_id'];
@@ -111,23 +102,27 @@ function paypal_refund()
 	}
 	if ($continue === true) {
 		myadmin_log('admin', 'info', 'Going with PayPal Refund', __LINE__, __FILE__);
-		if ((isset($GLOBALS['tf']->variables->request['refund_amount_opt']) && $GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') || $transactAmount == $GLOBALS['tf']->variables->request['refund_amount']) {
+		foreach ($GLOBALS['tf']->variables->request['refund_amount_opt'] as $values) {
+			$explodedValues = explode('_', $values);
+			$serviceIds[] = $explodedValues[0];
+			$invoiceIds[] = $explodedValues[1];
+			$invoiceAmounts[] = $explodedValues[2];
+		}
+		if ($GLOBALS['tf']->variables->request['amount'] == $GLOBALS['tf']->variables->request['refund_amount']) {
 			$refund_type = 'Full';
 		} else {
 			$refund_type = 'Partial';
 		}
-		$amount = $GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full' ? $transactAmount : $GLOBALS['tf']->variables->request['refund_amount'];
-		if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full') {
+		$amount = $GLOBALS['tf']->variables->request['refund_amount'];
+		if ($refund_type != 'Full') {
 			$memo = $GLOBALS['tf']->variables->request['memo'];
 		}
 		// Set request-specific fields.
 		$transactionID = urlencode($transact_ID);
 		$refundType = urlencode($refund_type); // or 'Partial'
-			//$amount;                          // required if Partial.
-			//$memo;                            // required if Partial.
-			$currencyID = urlencode('USD'); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
-			// Add request-specific fields to the request string.
-			$nvpStr = "&TRANSACTIONID={$transactionID}&REFUNDTYPE={$refundType}&CURRENCYCODE={$currencyID}";
+		$currencyID = urlencode('USD'); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		// Add request-specific fields to the request string.
+		$nvpStr = "&TRANSACTIONID={$transactionID}&REFUNDTYPE={$refundType}&CURRENCYCODE={$currencyID}";
 		if (isset($memo)) {
 			$nvpStr .= "&NOTE={$memo}";
 		}
@@ -158,20 +153,18 @@ function paypal_refund()
 			$db = clone $GLOBALS['tf']->db;
 			$dbC = clone $GLOBALS['tf']->db;
 			$dbU = clone $GLOBALS['tf']->db;
-			if ($GLOBALS['tf']->variables->request['refund_amount_opt'] != 'Full') {
-				$invoices = [$invoiceId];
-			} elseif ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') {
-				$invoices = array_keys($serviceAmount);
-			}
-			
-			foreach ($invoices as $inv) {
+			$amountRemaining = $amount;
+			foreach ($invoiceIds as $inv) {
 				$dbC->query("SELECT * FROM invoices WHERE invoices_id = {$inv}");
 				if ($dbC->num_rows() > 0) {
 					$dbC->next_record(MYSQL_ASSOC);
 					$updateInv = $dbC->Record;
-					if ($GLOBALS['tf']->variables->request['refund_amount_opt'] == 'Full') {
+					if ($refund_type == 'Full' || $amountRemaining >= $dbC->Record['invoices_amount']) {
 						$amount = $dbC->Record['invoices_amount'];
+					} else {
+						$amount = $amountRemaining;
 					}
+					$amountRemaining = bcsub($amountRemaining, $amount);
 					$invUpdateAmount = bcsub($dbC->Record['invoices_amount'], $amount, 2);
 					if ($GLOBALS['tf']->variables->request['refund_opt'] == 'API' || $GLOBALS['tf']->variables->request['refund_opt'] == 'APISCIU') {
 						$dbU->query("UPDATE invoices SET invoices_amount={$invUpdateAmount} WHERE invoices_id = {$updateInv['invoices_id']}");
