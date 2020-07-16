@@ -56,14 +56,13 @@ function paypal_refund()
 		}
 		if ($continue === true) {
 			myadmin_log('admin', 'info', 'Going with PayPal Refund', __LINE__, __FILE__);
-			
+			$amount = $GLOBALS['tf']->variables->request['refund_amount'];
 			myadmin_log('admin', 'info', 'Refund amount : '.$amount, __LINE__, __FILE__);
 			if ($GLOBALS['tf']->variables->request['amount'] == $GLOBALS['tf']->variables->request['refund_amount']) {
 				$refund_type = 'Full';
 			} else {
 				$refund_type = 'Partial';
 			}
-			$amount = $GLOBALS['tf']->variables->request['refund_amount'];
 			if ($refund_type != 'Full') {
 				$memo = $GLOBALS['tf']->variables->request['memo'];
 			}
@@ -84,7 +83,6 @@ function paypal_refund()
 					exit('Partial Refund Memo is not specified.');
 				}
 			}
-			// Execute the API operation; see the PayPalHttpPost function above.
 			$httpParsedResponseAr = PayPalHttpPost('RefundTransaction', $nvpStr, 'live');
 			if ('SUCCESS' == mb_strtoupper($httpParsedResponseAr['ACK']) || 'SUCCESSWITHWARNING' == mb_strtoupper($httpParsedResponseAr['ACK'])) {
 				$refundTransactionId = urldecode($httpParsedResponseAr['REFUNDTRANSACTIONID']);
@@ -100,6 +98,8 @@ function paypal_refund()
 				$dbU = clone $GLOBALS['tf']->db;
 				$now = mysql_now();
 				$amountRemaining = $amount;
+				myadmin_log('admin', 'info', json_encode($invoiceIds), __LINE__, __FILE__);
+				$invoice = new \MyAdmin\Orm\Invoice($db);
 				foreach ($invoiceIds as $inv) {
 					$dbC->query("SELECT * FROM invoices WHERE invoices_id = {$inv}");
 					if ($dbC->num_rows() > 0) {
