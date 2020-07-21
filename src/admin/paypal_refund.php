@@ -132,7 +132,7 @@ function paypal_refund()
 							'history_sid' => $GLOBALS['tf']->session->sessionid,
 							'history_timestamp' => mysql_now(),
 							'history_creator' => $GLOBALS['tf']->session->account_id,
-							'history_owner' => $cust_id,
+							'history_owner' => $updateInv['invoices_custid'],
 							'history_section' => 'cc_refund',
 							'history_type' => $transact_ID,
 							'history_new_value' => "Refunded {$amount}",
@@ -186,10 +186,10 @@ function paypal_refund()
 	}
 	function confirm_dialog(event) {
 		event.preventDefault();
-        var c = confirm("Are you sure want to refund?");
-        if(c){
-            $("form#paypalrefundform").submit();
-          }
+		var c = confirm("Are you sure want to refund?");
+		if(c){
+			$("form#paypalrefundform").submit();
+		  }
 	}
 	</script>';
 	add_output($script);
