@@ -38,16 +38,13 @@ function paypal_refund()
 			add_output('<div class="alert alert-danger">Error! You entered Refund amount less than or equal to $0. Refund amount must be greater than $0.</div>');
 			$continue = false;
 		}
-		$sel_inv_amt_tot = 0;
 		foreach ($GLOBALS['tf']->variables->request['refund_amount_opt'] as $values) {
 			$explodedValues = explode('_', $values);
-			$serviceIds[] = $explodedValues[0];
 			$invoiceIds[] = $explodedValues[1];
 			$invoiceAmounts[] = $explodedValues[2];
-			$sel_inv_amt_tot += $explodedValues[2];
 		}
-		if ($sel_inv_amt_tot < $GLOBALS['tf']->variables->request['refund_amount']) {
-			add_output('<div class="alert alert-danger">Error! You entered Refund amount greater than sum of selected services invoices. Refund amount must be equal to or lesser than sum of selected services invoices.</div>');
+		if ($GLOBALS['tf']->variables->request['amount'] < $GLOBALS['tf']->variables->request['refund_amount']) {
+			add_output('<div class="alert alert-danger">Error! Refund amount greater than paid amount, must be lesser or equal.</div>');
 			$continue = false;
 		}
 		if ($continue === true && is_paypal_txn_refunded($transact_ID)) {
@@ -98,14 +95,18 @@ function paypal_refund()
 				$dbU = clone $GLOBALS['tf']->db;
 				$now = mysql_now();
 				$amountRemaining = $amount;
-				myadmin_log('admin', 'info', json_encode($invoiceIds), __LINE__, __FILE__);
+				myadmin_log('admin', 'info', 'Paypal Refund invoice Ids - '.json_encode($invoiceIds), __LINE__, __FILE__);
 				$invoice = new \MyAdmin\Orm\Invoice($db);
+				$invTotal = count($invoiceIds);
+				$invLoop = 0;
 				foreach ($invoiceIds as $inv) {
 					$dbC->query("SELECT * FROM invoices WHERE invoices_id = {$inv}");
 					if ($dbC->num_rows() > 0) {
 						$dbC->next_record(MYSQL_ASSOC);
 						$updateInv = $dbC->Record;
-						if ($refund_type == 'Full' || $amountRemaining >= $dbC->Record['invoices_amount']) {
+						if (++$invLoop == $invTotal) {
+							$amount = $amountRemaining;
+						} elseif ($refund_type == 'Full' || $amountRemaining >= $dbC->Record['invoices_amount']) {
 							$amount = $dbC->Record['invoices_amount'];
 						} else {
 							$amount = $amountRemaining;
