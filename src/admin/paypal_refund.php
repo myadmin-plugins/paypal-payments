@@ -145,7 +145,7 @@ function paypal_refund()
 							'history_timestamp' => mysql_now(),
 							'history_creator' => $GLOBALS['tf']->session->account_id,
 							'history_owner' => $updateInv['invoices_custid'],
-							'history_section' => 'cc_refund',
+							'history_section' => 'paypal_refund',
 							'history_type' => $transact_ID,
 							'history_new_value' => "Refunded {$amount}",
 							'history_old_value' => "Invoice Amount {$dbC->Record['invoices_amount']}"
