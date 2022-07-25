@@ -397,8 +397,10 @@ class PayPalCheckout
 		$nvpstr = '&TOKEN='.urlencode($token);
 		// Make the API call and store the results in an array. If the call was a success, show the authorization details, and provide an action to complete the payment. If failed, show the error
 		$resArray = self::paypal_hash_call('GetExpressCheckoutDetails', $nvpstr);
-		$ack = mb_strtoupper($resArray['ACK']);
-		myadmin_log('billing', 'info', "GetExpressCheckoutDetails {$nvpstr}  returned ".json_encode($resArray), __LINE__, __FILE__);
+        myadmin_log('billing', 'info', "GetExpressCheckoutDetails {$nvpstr}  returned ".json_encode($resArray), __LINE__, __FILE__);
+        if (!isset($resArray['ACK']))
+            return false;
+        $ack = mb_strtoupper($resArray['ACK']);
 		if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
 			return $resArray;
 		} else {
