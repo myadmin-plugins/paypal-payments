@@ -28,7 +28,7 @@ function paypal_refund()
     $checkbox = '';
     if ($db->num_rows() > 0) {
         while ($db->next_record(MYSQL_ASSOC)) {
-            $dbR->query("SELECT * FROM invoices WHERE invoices_extra = {$db->Record['invoices_id']}");
+            $dbR->query("SELECT * FROM invoices WHERE invoices_extra = {$db->Record['invoices_id']} AND invoices_service = {$db->Record['invoices_service']} AND invoices_module = '{$db->Record['invoices_module']}'");
             if ($dbR->num_rows() == 0) {
                 $serviceAmount[$db->Record['invoices_id']] = $db->Record['invoices_amount'];
                 $checkbox .= '<input type="checkbox" name="refund_amount_opt[]" value="'.$db->Record['invoices_service'].'_'.$db->Record['invoices_id'].'_'.$db->Record['invoices_amount'].'" onclick="return update_partial_payment();" checked>&nbsp;<label for="" style="text-transform: capitalize;"> '.$db->Record['invoices_module'].' '.$db->Record['invoices_service'].' $' .$db->Record['invoices_amount'].'</label><br>';
