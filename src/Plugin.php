@@ -97,6 +97,8 @@ class Plugin
         $settings->add_text_setting(_('Billing'), _('PayPal'), 'paypal_email', _('Login Email'), _('Login Email'), (defined('PAYPAL_EMAIL') ? PAYPAL_EMAIL : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_client_id', _('Client ID'), _('Client ID'), (defined('PAYPAL_CLIENT_ID') ? PAYPAL_CLIENT_ID : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_secret', _('Secret'), _('SecretID'), (defined('PAYPAL_SECRET') ? PAYPAL_SECRET : ''));
+        $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_client_id_new', _('Client ID New'), _('Client ID'), (defined('PAYPAL_CLIENT_ID_NEW') ? PAYPAL_CLIENT_ID_NEW : ''));
+        $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_secret_new', _('Secret New'), _('SecretID'), (defined('PAYPAL_SECRET_NEW') ? PAYPAL_SECRET_NEW : ''));
         $settings->add_text_setting(_('Billing'), _('PayPal'), 'paypal_api_username', _('API Username'), _('API Username'), (defined('PAYPAL_API_USERNAME') ? PAYPAL_API_USERNAME : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_api_password', _('API Password'), _('API Password'), (defined('PAYPAL_API_PASSWORD') ? PAYPAL_API_PASSWORD : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_api_signature', _('API Signature'), _('API Signature'), (defined('PAYPAL_API_SIGNATURE') ? PAYPAL_API_SIGNATURE : ''));
