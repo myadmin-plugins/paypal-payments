@@ -342,7 +342,10 @@ function get_paypal_cats_and_fields()
         $cats = get_paypal_cats_and_fields();
         $db = clone $GLOBALS['tf']->db;
         $module = get_module_name(($GLOBALS['tf']->variables->request['module'] ?? 'default'));
-        if (isset($GLOBALS['tf']->variables->request['transaction'])) {
+        if (isset($GLOBALS['tf']->variables->request['id'])) {
+            $transaction = intval($GLOBALS['tf']->variables->request['id']);
+            $query = "select * from paypal where id='{$transaction}'";
+        } elseif (isset($GLOBALS['tf']->variables->request['transaction'])) {
             $transaction = $db->real_escape($GLOBALS['tf']->variables->request['transaction']);
             $query = "select * from paypal where txn_id='{$transaction}'";
         } elseif (isset($GLOBALS['tf']->variables->request['payer_id'])) {
