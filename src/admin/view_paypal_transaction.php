@@ -328,7 +328,7 @@ function get_paypal_cats_and_fields()
     {
         page_title('PayPal Transaction Information');
         function_requirements('has_acl');
-        if ($GLOBALS['tf']->ima != 'admin' || !has_acl('client_billing')) {
+        if (($GLOBALS['tf']->ima == 'client' && CLIENT_VIEW_PAYMENT == false) || ($GLOBALS['tf']->ima == 'admin' && !has_acl('client_billing'))) {
             dialog('Not admin', 'Not Admin or you lack the permissions to view this page.');
             return false;
         }
@@ -357,6 +357,12 @@ function get_paypal_cats_and_fields()
         } elseif (isset($GLOBALS['tf']->variables->request['recurring_payment_id'])) {
             $recurring_payment_id = $db->real_escape($GLOBALS['tf']->variables->request['recurring_payment_id']);
             $query = "select * from paypal where recurring_payment_id='{$recurring_payment_id}'";
+        } else {
+            dialog('Missing Parameter', 'Missing Required Parameter');
+            return false;
+        }
+        if ($GLOBALS['tf']->ima == 'client') {
+            $query .= " and custid={$GLOBALS['tf']->session->account_id}";
         }
         $db->query($query);
         if ($db->num_rows() == 0) {
@@ -371,11 +377,11 @@ function get_paypal_cats_and_fields()
                 $transaction = [];
                 foreach ($db->Record as $key => $value) {
                     if ($key == 'lid') {
-                        $transaction[$key] = $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, false, 'target="_blank" title="Edit Customer"');
+                        $transaction[$key] = $GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, false, 'target="_blank" title="Edit Customer"');
                     } elseif ($key == 'custid') {
-                        $transaction[$key] = $value == 0 ? '' : $table->make_link('choice=none.edit_customer&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), false, 'target="_blank" title="Edit Customer"');
+                        $transaction[$key] = $value == 0 ? '' : ($GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), false, 'target="_blank" title="Edit Customer"'));
                     } elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id') {
-                        $transaction[$key] = $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, false, 'target="_blank" title="View Payers Transactions"');
+                        $transaction[$key] = $GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, false, 'target="_blank" title="View Payers Transactions"');
                     } elseif ($key == 'txn_type' && isset($transaction_types[$value])) {
                         $transaction[$key] = '<strong title="'.htmlspecial($transaction_types[$value]).'">'.$value.'</strong>';
                     } elseif (in_array($key, ['verify_sign'])) {
@@ -401,14 +407,7 @@ function get_paypal_cats_and_fields()
                             if (preg_match('/^SERVICE(?P<module>\D+)(?P<id>\d+)$/', $invoice, $matches)) {
                                 $module = $matches['module'];
                                 $service = $GLOBALS['tf']->db->real_escape($matches['id']);
-                                if ($module == 'vps') {
-                                    $suffix = '3';
-                                } elseif ($module == 'webhosting') {
-                                    $suffix = '2';
-                                } else {
-                                    $suffix = '';
-                                }
-                                $invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].$suffix.'&amp;id='.$service, $invoice, false, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
+                                $invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].'&amp;id='.$service, $invoice, false, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
                             }
                         }
                         //$transaction[$key] = wordwrap(implode(',', $invoices), 28, '<br>');
@@ -423,6 +422,7 @@ function get_paypal_cats_and_fields()
                 //print_r($db->Record);
                 $transactions[] = $transaction;
             }
+            $smarty->assign('ima', $GLOBALS['tf']->ima);
             $smarty->assign('transaction', $transaction);
             $smarty->assign('transactions', $transactions);
             $smarty->assign('paypal_cats', $cats);
