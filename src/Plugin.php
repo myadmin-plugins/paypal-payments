@@ -99,6 +99,9 @@ class Plugin
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_secret', _('Secret'), _('SecretID'), (defined('PAYPAL_SECRET') ? PAYPAL_SECRET : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_client_id_new', _('Client ID New'), _('Client ID'), (defined('PAYPAL_CLIENT_ID_NEW') ? PAYPAL_CLIENT_ID_NEW : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_secret_new', _('Secret New'), _('SecretID'), (defined('PAYPAL_SECRET_NEW') ? PAYPAL_SECRET_NEW : ''));
+        $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_nvp_webhook_id', _('NVP Webhook ID'), _('NVP Webhook ID'), (defined('PAYPAL_NVP_WEBHOOK_ID') ? PAYPAL_NVP_WEBHOOK_ID : ''));
+        $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_nvp_client_id', _('NVP Client ID'), _('NVP Client ID'), (defined('PAYPAL_NVP_CLIENT_ID') ? PAYPAL_NVP_CLIENT_ID : ''));
+        $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_nvp_secret', _('NVP Secret'), _('NVP Secret'), (defined('PAYPAL_NVP_SECRET') ? PAYPAL_NVP_SECRET : ''));
         $settings->add_text_setting(_('Billing'), _('PayPal'), 'paypal_api_username', _('API Username'), _('API Username'), (defined('PAYPAL_API_USERNAME') ? PAYPAL_API_USERNAME : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_api_password', _('API Password'), _('API Password'), (defined('PAYPAL_API_PASSWORD') ? PAYPAL_API_PASSWORD : ''));
         $settings->add_password_setting(_('Billing'), _('PayPal'), 'paypal_api_signature', _('API Signature'), _('API Signature'), (defined('PAYPAL_API_SIGNATURE') ? PAYPAL_API_SIGNATURE : ''));
