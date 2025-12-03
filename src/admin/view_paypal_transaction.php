@@ -335,7 +335,7 @@ function get_paypal_cats_and_fields()
         add_js('bootstrap');
         add_js('font-awesome');
         add_js('isotope');
-        $GLOBALS['body_extra'] = ' data-spy="scroll" data-target="#scrollspy" style="position: relative;"';
+        $GLOBALS['body_extra'] = ' data-spy="scroll" data-bs-target="#scrollspy" style="position: relative;"';
         $GLOBALS['tf']->add_html_head_css_file('/css/view_paypal_transaction.css');
         $GLOBALS['tf']->add_html_head_js_file('/js/view_paypal_transaction.js');
         $transaction_types = get_paypal_transaction_types();
