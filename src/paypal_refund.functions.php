@@ -94,7 +94,7 @@ function refundPaypalTransaction($transactionId = null)
         $result['refundNetAmt'] = urldecode($httpParsedResponseAr['NETREFUNDAMT']);
         $result['refundTotalAmt'] = urlencode($httpParsedResponseAr['TOTALREFUNDEDAMOUNT']);
         myadmin_log('billing', 'info', json_encode($httpParsedResponseAr), __LINE__, __FILE__);
-        $db = clone $GLOBALS['tf']->db;
+        $db = clone \MyAdmin\App::db();
         $db2 = clone $db;
         $transactionID = $db->real_escape($transactionID);
         $db->query("select invoices_extra from invoices where invoices_type=10 and invoices_description='PayPal Payment {$transactionID}'", __LINE__, __FILE__);

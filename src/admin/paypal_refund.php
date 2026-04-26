@@ -7,23 +7,23 @@
 function paypal_refund()
 {
     function_requirements('has_acl');
-    if ($GLOBALS['tf']->ima != 'admin' || !has_acl('client_billing')) {
+    if (\MyAdmin\App::ima() != 'admin' || !has_acl('client_billing')) {
         dialog('Not admin', 'Not Admin or you lack the permissions to view this page.');
         return false;
     }
     require_once __DIR__.'/../paypal_refund.functions.php';
     require_once __DIR__.'/../paypal.functions.inc.php';
     $continue = false;
-    if (!isset($GLOBALS['tf']->variables->request['transact_id'])) {
+    if (!isset(\MyAdmin\App::variables()->request['transact_id'])) {
         add_output('Transaction ID is empty!');
         return;
     }
-    $desc = "PayPal Payment {$GLOBALS['tf']->variables->request['transact_id']}";
-    if (isset($GLOBALS['tf']->variables->request['amount'])) {
-        $transactAmount = $GLOBALS['tf']->variables->request['amount'];
+    $desc = "PayPal Payment " . \MyAdmin\App::variables()->request['transact_id'];
+    if (isset(\MyAdmin\App::variables()->request['amount'])) {
+        $transactAmount = \MyAdmin\App::variables()->request['amount'];
     }
-    $db = clone $GLOBALS['tf']->db;
-    $dbR = clone $GLOBALS['tf']->db;
+    $db = clone \MyAdmin\App::db();
+    $dbR = clone \MyAdmin\App::db();
     $db->query("SELECT * FROM invoices WHERE invoices_description = '$desc'");
     $checkbox = '';
     if ($db->num_rows() > 0) {
@@ -42,19 +42,19 @@ function paypal_refund()
             }
         }
     }
-    if (isset($GLOBALS['tf']->variables->request['confirmed']) && $GLOBALS['tf']->variables->request['confirmed'] == 'yes') {
+    if (isset(\MyAdmin\App::variables()->request['confirmed']) && \MyAdmin\App::variables()->request['confirmed'] == 'yes') {
         $continue = true;
-        $transact_ID = $GLOBALS['tf']->variables->request['transact_id'];
-        if ($GLOBALS['tf']->variables->request['refund_amount'] <= 0) {
+        $transact_ID = \MyAdmin\App::variables()->request['transact_id'];
+        if (\MyAdmin\App::variables()->request['refund_amount'] <= 0) {
             add_output('<div class="alert alert-danger">Error! You entered Refund amount less than or equal to $0. Refund amount must be greater than $0.</div>');
             $continue = false;
         }
-        foreach ($GLOBALS['tf']->variables->request['refund_amount_opt'] as $values) {
+        foreach (\MyAdmin\App::variables()->request['refund_amount_opt'] as $values) {
             $explodedValues = explode('_', $values);
             $invoiceIds[] = $explodedValues[1];
             $invoiceAmounts[] = $explodedValues[2];
         }
-        if ($GLOBALS['tf']->variables->request['amount'] < $GLOBALS['tf']->variables->request['refund_amount']) {
+        if (\MyAdmin\App::variables()->request['amount'] < \MyAdmin\App::variables()->request['refund_amount']) {
             add_output('<div class="alert alert-danger">Error! Refund amount greater than paid amount, must be lesser or equal.</div>');
             $continue = false;
         }
@@ -64,15 +64,15 @@ function paypal_refund()
         }
         if ($continue === true) {
             myadmin_log('admin', 'info', 'Going with PayPal Refund', __LINE__, __FILE__);
-            $amount = $GLOBALS['tf']->variables->request['refund_amount'];
+            $amount = \MyAdmin\App::variables()->request['refund_amount'];
             myadmin_log('admin', 'info', 'Refund amount : '.$amount, __LINE__, __FILE__);
-            if ($GLOBALS['tf']->variables->request['amount'] == $GLOBALS['tf']->variables->request['refund_amount']) {
+            if (\MyAdmin\App::variables()->request['amount'] == \MyAdmin\App::variables()->request['refund_amount']) {
                 $refund_type = 'Full';
             } else {
                 $refund_type = 'Partial';
             }
             if ($refund_type != 'Full') {
-                $memo = $GLOBALS['tf']->variables->request['memo'];
+                $memo = \MyAdmin\App::variables()->request['memo'];
             }
             $transactionID = urlencode($transact_ID);
             $refundType = urlencode($refund_type);
@@ -101,9 +101,9 @@ function paypal_refund()
                 $refundTotal = urlencode($httpParsedResponseAr['TOTALREFUNDEDAMOUNT']);
                 add_output('<div class="alert alert-success">Refund Transaction success:<br />Status: '.$refundStatus.'<br/>Transaction Id: '.$refundTransactionId.'<br />Fee Refund Amt: '.$refundFee.'<br />Gross Refund Amt: '.$refundGross.'<br />Net Refund Amt: '.$refundNet.'<br/>Total Refund Amt: '.$refundTotal.'</div>');
                 myadmin_log('admin', 'info', json_encode($httpParsedResponseAr), __LINE__, __FILE__);
-                $db = clone $GLOBALS['tf']->db;
-                $dbC = clone $GLOBALS['tf']->db;
-                $dbU = clone $GLOBALS['tf']->db;
+                $db = clone \MyAdmin\App::db();
+                $dbC = clone \MyAdmin\App::db();
+                $dbU = clone \MyAdmin\App::db();
                 $now = mysql_now();
                 $amountRemaining = $amount;
                 myadmin_log('admin', 'info', 'Paypal Refund invoice Ids - '.json_encode($invoiceIds), __LINE__, __FILE__);
@@ -136,7 +136,7 @@ function paypal_refund()
                             ->setPaid(0)
                             ->setModule($updateInv['invoices_module'])
                             ->save();
-                        if ($GLOBALS['tf']->variables->request['unpaid'] == 'yes') {
+                        if (\MyAdmin\App::variables()->request['unpaid'] == 'yes') {
                             $invoiceObj = new \MyAdmin\Orm\Invoice();
                             $invoiceObj->load_real($updateInv['invoices_extra']);
                             if ($invoiceObj->loaded === true) {
@@ -145,9 +145,9 @@ function paypal_refund()
                         }
                         $db->query(make_insert_query('history_log', [
                             'history_id' => null,
-                            'history_sid' => $GLOBALS['tf']->session->sessionid,
+                            'history_sid' => \MyAdmin\App::session()->sessionid,
                             'history_timestamp' => mysql_now(),
-                            'history_creator' => $GLOBALS['tf']->session->account_id,
+                            'history_creator' => \MyAdmin\App::session()->account_id,
                             'history_owner' => $updateInv['invoices_custid'],
                             'history_section' => 'paypal_refund',
                             'history_type' => $transact_ID,
@@ -170,7 +170,7 @@ function paypal_refund()
     $table->set_title('Confirm Refund');
     $table->set_form_options('id="paypalrefundform"');
     $table->set_options('cellpadding=10');
-    $table->add_hidden('transact_id', $GLOBALS['tf']->variables->request['transact_id']);
+    $table->add_hidden('transact_id', \MyAdmin\App::variables()->request['transact_id']);
     $table->add_hidden('amount', $transactAmount);
     $table->add_field('Services', 'l');
     $table->add_field($checkbox, 'l');

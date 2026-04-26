@@ -328,7 +328,7 @@ function get_paypal_cats_and_fields()
     {
         page_title('PayPal Transaction Information');
         function_requirements('has_acl');
-        if (($GLOBALS['tf']->ima == 'client' && CLIENT_VIEW_PAYMENT == false) || ($GLOBALS['tf']->ima == 'admin' && !has_acl('client_billing'))) {
+        if ((\MyAdmin\App::ima() == 'client' && CLIENT_VIEW_PAYMENT == false) || (\MyAdmin\App::ima() == 'admin' && !has_acl('client_billing'))) {
             dialog('Not admin', 'Not Admin or you lack the permissions to view this page.');
             return false;
         }
@@ -336,33 +336,33 @@ function get_paypal_cats_and_fields()
         add_js('font-awesome');
         add_js('isotope');
         $GLOBALS['body_extra'] = ' data-spy="scroll" data-target="#scrollspy" style="position: relative;"';
-        $GLOBALS['tf']->add_html_head_css_file('/css/view_paypal_transaction.css');
-        $GLOBALS['tf']->add_html_head_js_file('/js/view_paypal_transaction.js');
+        \MyAdmin\App::output()->addHeadCssFile('/css/view_paypal_transaction.css');
+        \MyAdmin\App::output()->addHeadJsFile('/js/view_paypal_transaction.js');
         $transaction_types = get_paypal_transaction_types();
         $cats = get_paypal_cats_and_fields();
-        $db = clone $GLOBALS['tf']->db;
-        $module = get_module_name(($GLOBALS['tf']->variables->request['module'] ?? 'default'));
-        if (isset($GLOBALS['tf']->variables->request['id'])) {
-            $transaction = intval($GLOBALS['tf']->variables->request['id']);
+        $db = clone \MyAdmin\App::db();
+        $module = get_module_name((\MyAdmin\App::variables()->request['module'] ?? 'default'));
+        if (isset(\MyAdmin\App::variables()->request['id'])) {
+            $transaction = intval(\MyAdmin\App::variables()->request['id']);
             $query = "select * from paypal where id='{$transaction}'";
-        } elseif (isset($GLOBALS['tf']->variables->request['transaction'])) {
-            $transaction = $db->real_escape($GLOBALS['tf']->variables->request['transaction']);
+        } elseif (isset(\MyAdmin\App::variables()->request['transaction'])) {
+            $transaction = $db->real_escape(\MyAdmin\App::variables()->request['transaction']);
             $query = "select * from paypal where txn_id='{$transaction}'";
-        } elseif (isset($GLOBALS['tf']->variables->request['payer_id'])) {
-            $payer_id = $db->real_escape($GLOBALS['tf']->variables->request['payer_id']);
+        } elseif (isset(\MyAdmin\App::variables()->request['payer_id'])) {
+            $payer_id = $db->real_escape(\MyAdmin\App::variables()->request['payer_id']);
             $query = "select * from paypal where payer_id='{$payer_id}'";
-        } elseif (isset($GLOBALS['tf']->variables->request['payer_email'])) {
-            $payer_email = $db->real_escape($GLOBALS['tf']->variables->request['payer_email']);
+        } elseif (isset(\MyAdmin\App::variables()->request['payer_email'])) {
+            $payer_email = $db->real_escape(\MyAdmin\App::variables()->request['payer_email']);
             $query = "select * from paypal where payer_email='{$payer_email}'";
-        } elseif (isset($GLOBALS['tf']->variables->request['recurring_payment_id'])) {
-            $recurring_payment_id = $db->real_escape($GLOBALS['tf']->variables->request['recurring_payment_id']);
+        } elseif (isset(\MyAdmin\App::variables()->request['recurring_payment_id'])) {
+            $recurring_payment_id = $db->real_escape(\MyAdmin\App::variables()->request['recurring_payment_id']);
             $query = "select * from paypal where recurring_payment_id='{$recurring_payment_id}'";
         } else {
             dialog('Missing Parameter', 'Missing Required Parameter');
             return false;
         }
-        if ($GLOBALS['tf']->ima == 'client') {
-            $query .= " and custid={$GLOBALS['tf']->session->account_id}";
+        if (\MyAdmin\App::ima() == 'client') {
+            $query .= " and custid=" . \MyAdmin\App::session()->account_id;
         }
         $db->query($query);
         if ($db->num_rows() == 0) {
@@ -377,11 +377,11 @@ function get_paypal_cats_and_fields()
                 $transaction = [];
                 foreach ($db->Record as $key => $value) {
                     if ($key == 'lid') {
-                        $transaction[$key] = $GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, false, 'target="_blank" title="Edit Customer"');
+                        $transaction[$key] = \MyAdmin\App::ima() == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;lid='.$value, $value, false, 'target="_blank" title="Edit Customer"');
                     } elseif ($key == 'custid') {
-                        $transaction[$key] = $value == 0 ? '' : ($GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;customer='.$value, $GLOBALS['tf']->accounts->cross_reference($value), false, 'target="_blank" title="Edit Customer"'));
+                        $transaction[$key] = $value == 0 ? '' : (\MyAdmin\App::ima() == 'client' ? $value : $table->make_link('choice=none.edit_customer&amp;customer='.$value, \MyAdmin\App::accounts()->cross_reference($value), false, 'target="_blank" title="Edit Customer"'));
                     } elseif ($key == 'payer_email' || $key == 'payer_id' || $key == 'recurring_payment_id') {
-                        $transaction[$key] = $GLOBALS['tf']->ima == 'client' ? $value : $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, false, 'target="_blank" title="View Payers Transactions"');
+                        $transaction[$key] = \MyAdmin\App::ima() == 'client' ? $value : $table->make_link('choice=none.view_paypal_transaction&amp;'.$key.'='.$value, $value, false, 'target="_blank" title="View Payers Transactions"');
                     } elseif ($key == 'txn_type' && isset($transaction_types[$value])) {
                         $transaction[$key] = '<strong title="'.htmlspecial($transaction_types[$value]).'">'.$value.'</strong>';
                     } elseif (in_array($key, ['verify_sign'])) {
@@ -406,7 +406,7 @@ function get_paypal_cats_and_fields()
                         foreach ($invoices as $idx => $invoice) {
                             if (preg_match('/^SERVICE(?P<module>\D+)(?P<id>\d+)$/', $invoice, $matches)) {
                                 $module = $matches['module'];
-                                $service = $GLOBALS['tf']->db->real_escape($matches['id']);
+                                $service = \MyAdmin\App::db()->real_escape($matches['id']);
                                 $invoices[$idx] = $table->make_link('choice=none.view_'.$GLOBALS['modules'][$module]['PREFIX'].'&amp;id='.$service, $invoice, false, 'target="_blank" title="View '.$GLOBALS['modules'][$module]['TBLNAME'].' '.$service.' Details"');
                             }
                         }
@@ -422,7 +422,7 @@ function get_paypal_cats_and_fields()
                 //print_r($db->Record);
                 $transactions[] = $transaction;
             }
-            $smarty->assign('ima', $GLOBALS['tf']->ima);
+            $smarty->assign('ima', \MyAdmin\App::ima());
             $smarty->assign('transaction', $transaction);
             $smarty->assign('transactions', $transactions);
             $smarty->assign('paypal_cats', $cats);
